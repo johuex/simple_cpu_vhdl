@@ -1,8 +1,8 @@
+-- registers
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
---USE IEEE.numeric_std.ALL;
 
 --описываем память как тип данных (Entity Declaration)
 entity memory_d is 

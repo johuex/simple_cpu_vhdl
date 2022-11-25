@@ -15,6 +15,14 @@ end memory_c;
 architecture rom_arch of memory_c is
 	signal out_byte: std_logic_vector(31 downto 0);
 begin
+	init_commend_memory: process(nMemRd)
+	begin
+		if nMemRd = ’1’ then
+		
+		end if;
+	end process;
+	
+	
 	process(nMemRd)
 	begin
 	if nMemRd = ’0’ then
@@ -28,7 +36,7 @@ begin
 	else
 		out_byte <= (others => ’Z’);
 	end if;
-end process;
+	end process;
 
 data_bus_out <= out_byte;
 
