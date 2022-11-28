@@ -5,7 +5,7 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
 --описываем память как тип данных (Entity Declaration)
-entity memory is 
+component memory is 
 generic ( --определенные значения компонента
 	addr_length : integer := 10; --разрядность адреса в битах, 
 	reg_size : integer := 10; -- длина слова памяти в битах, размер ячейки
@@ -30,7 +30,7 @@ begin
 	process (clk, reset)
 	begin
 	--заполняем память по переднему фронту
-		if clk'event and clk='1' then
+		if (clk'event and clk='1') then
 			if 
 				we='1' then mem_arr(conv_integer(unsigned(addr))) <= datai; 
 				-- conv_integer = from binary to decimal
