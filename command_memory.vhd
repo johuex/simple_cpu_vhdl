@@ -2,42 +2,42 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
---USE IEEE.numeric_std.ALL;
 
--- память команд, ROM
+-- ROM memory
 entity memory_c is
+generic (
+	addr_length: integer := 10; -- разрядность адреса памяти в битах, 
+	reg_size: integer := 16; -- длина команды
+	mem_size: integer := 256 -- длина памяти (число команд в памяти)
+);
 port(
-	data_bus_out: out std_logic_vector(22 downto 0); --выдача команды в ?? виде
-	address_bus: in std_logic_vector(22 downto 0); --команда в битовом виде
-	nMemRd: in std_logic);  --всегда 0, чтобы прочитать ее
-end memory_c;
+	clk: in std_logic; --тактирование
+	reset: in std_logic; -- ресет
+	addr: in std_ulogic_vector((addr_length-1) downto 0); --адрес ячейки памяти
+	datao: out std_logic_vector((reg_size-1) downto 0) --данные, читаемые из памяти (команда)
+);
+end entity memory_c;
 
-architecture rom_arch of memory_c is
-	signal out_byte: std_logic_vector(31 downto 0);
+architecture memory_c_rtl of memory_c is
+type mem_array is array (0 to mem_size-1) of std_logic_vector((reg_size-1) downto 0);
+signal mem_arr: mem_array;
 begin
-	init_commend_memory: process(nMemRd)
+	process (clk, reset)
 	begin
-		if nMemRd = ’1’ then
-		
+		if (clk'event and clk='1') then
+			--чтение из памяти
+			datao <= mem_arr(conv_integer(unsigned(addr)));
+		end if;
+		if reset='1' then
+		-- Записываем набор команд для процессора
+			mem_arr(0) <= "10000000000000"; -- LOAD r0 00000000
+			mem_arr(1) <= "10001000000010"; -- LOAD r1 00000010
+			mem_arr(2) <= "00001100000100"; -- ADD r3, r4
+			mem_arr(3) <= "10001100000000"; -- LOAD r3 00000000
+			mem_arr(4) <= "01010100000100"; -- SUB r5, r4
+			mem_arr(5) <= "00011000000100"; -- ADD r6, r4
+			mem_arr(6) <= "11011100000001"; -- STORE r7 00000001
+			mem_arr(7) <= "11000000000000"; -- STORE r0 00000000
 		end if;
 	end process;
-	
-	
-	process(nMemRd)
-	begin
-	if nMemRd = ’0’ then
-		case address_bus is
-			when "00" => out_byte <= LOAD;
-			when "01" => out_byte <= STORE;
-			when "10" => out_byte <= SUM;
-			when "11" => out_byte <= MUL;
-			when others => out_byte <= (others => ’Z’);
-		end case;
-	else
-		out_byte <= (others => ’Z’);
-	end if;
-	end process;
-
-data_bus_out <= out_byte;
-
 end architecture;
