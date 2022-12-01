@@ -17,15 +17,15 @@ port(
 	rs1_data : out std_logic_vector((reg_size-1) downto 0);
 
 	-- Read port 2:
-	rs2_addr : in  std_ulogic_vector((addr_length-1) downto 0);;
+	rs2_addr : in  std_ulogic_vector((addr_length-1) downto 0);
 	rs2_data : out std_logic_vector((reg_size-1) downto 0);
 
 	-- Write port:
-	rd_addr  : in std_ulogic_vector((addr_length-1) downto 0);;
+	rd_addr  : in std_ulogic_vector((addr_length-1) downto 0);
 	rd_data  : in std_logic_vector((reg_size-1) downto 0);
 	we : in std_logic
 );
-end entity pp_register_file;
+end entity registers;
 
 architecture registers_rtl of registers is
 type regfile_array is array(0 to 31) of std_logic_vector(31 downto 0);

@@ -21,13 +21,13 @@ port (
 	in_command_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 	in_command_3: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 	in_command_4: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	in_command_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0)
 );
 end entity simple_vhdl_cpu;
 
 architecture cup_rtl of simple_vhdl_cpu is
 signal clk: std_logic := '0';
-signal reset: std_logic := '0';
+--signal reset: std_logic := '0';
 	-- Входы инструкций на конвейеры
 --signal in_command_1: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 --signal in_command_2: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
@@ -35,19 +35,19 @@ signal reset: std_logic := '0';
 --signal in_command_4: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 --signal in_command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 
--- Для каждого конвейера начало ???
---signal value1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
---signal value2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
---signal out_operand1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
---signal out_operand2: std_ulogic_vector((addr_length-1) downto 0); 	-- второй операнд, выход
---signal out_val: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+-- Для каждого конвейера начало
+signal value1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 
--- Для каждого конвейера конец ???
---signal ram_val_in: std_logic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
---signal ram_val_out: std_logic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
---signal ram_addr: std_ulogic_vector( (addr_length-1) downto 0); 		-- адрес внешней памяти
---signal we: std_logic; 																-- разрешение на запись в память
---signal we_flag_reg: std_logic; 													-- разрешение на запись в регистр
+--Для каждого конвейера конец
+signal ram_val_in: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr: std_ulogic_vector( (addr_length-1) downto 0); 		-- адрес внешней памяти
+signal we: std_logic; 																-- разрешение на запись в память
+signal we_flag_reg: std_logic; 													-- разрешение на запись в регистр
 
 -- Регистры общего назначения
 type reg_array is array(0 to 7) of std_logic_vector((reg_size-1) downto 0);
@@ -89,6 +89,8 @@ begin
 		out_operand_2 => out_operand2, 	-- второй операнд, выход
 		out_val => out_val, 					-- выходное значение
 		ram_addr => ram_addr, 				-- адрес внешней памяти
+		ram_val_in => ram_val_in,			-- данные во внешнюю память
+		ram_val_out => ram_val_out,		-- данные с внешней памяти
 		we => we,  								-- разрешение на запись в память
 		we_flag_reg => we_flag_reg 		-- разрешение на запись в регистр
 		-- TODO Сделать чтение регистра

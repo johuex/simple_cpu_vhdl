@@ -15,13 +15,13 @@ port (
 		we: in std_logic; -- разрешение записи
 		reset: in std_logic; -- ресет
 		addr: in std_ulogic_vector((addr_length-1) downto 0); --адрес ячейки памяти
-		datai: in std_logic_vector((reg_size-1) downto 0); --данные для записи в память
-		datao: out std_logic_vector((reg_size-1) downto 0) --данные, читаемые из памяти
+		datai: in std_ulogic_vector((reg_size-1) downto 0); --данные для записи в память
+		datao: out std_ulogic_vector((reg_size-1) downto 0) --данные, читаемые из памяти
 );
 end entity memory;
 
 architecture memory_rtl of memory is
-type mem_array is array (0 to mem_size-1) of std_logic_vector((reg_size-1) downto 0);
+type mem_array is array (0 to mem_size-1) of std_ulogic_vector((reg_size-1) downto 0);
 signal mem_arr: mem_array;
 begin
 	process (clk, reset)
