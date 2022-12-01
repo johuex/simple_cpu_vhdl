@@ -1,14 +1,14 @@
 -- conveyor
 library ieee;
 use ieee.std_logic_1164.all;
---use ieee.std_logic_arith.all;
+use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
 entity conveyor is 
 generic (
 	command_length: integer := 2; -- разрядность команды
-	operand_length: integer := 4; -- разрядность операнда (регистр или память)
+	operand_length: integer := 10; -- разрядность операнда (регистр или память)
 	addr_length: integer := 10; -- разрядность второго операнда или памяти
 	reg_size: integer := 16 -- размер регистра (должен быть равен размеру ячейки памяти)
 );
@@ -29,10 +29,10 @@ port ( --входы и выходы
 end entity conveyor;
 
 architecture conveyor_rtl of conveyor is
-signal counter: integer := 0; -- текущее состояние
+signal counter: integer := 0; -- внутренний "счетчик" тактов на конвеере
 begin
 	process (clk)
-		variable now_command : std_ulogic_vector( (command_length - 1) downto 0); -- Код операции
+		variable now_command : std_ulogic_vector( (command_length - 1) downto 0); -- Код команды
 		variable now_operand_1 : std_ulogic_vector( (operand_length - 1) downto 0); -- Операнд 1
 		variable now_operand_2 : std_ulogic_vector( (addr_length - 1) downto 0); -- Операнд 2
 		variable value_operand_1 : std_ulogic_vector( (reg_size - 1) downto 0); -- Данные операнда 1
@@ -63,50 +63,55 @@ begin
 					counter <= 2;
 				when 2 => -- вычисление результата
 					case to_integer(unsigned(now_command)) is
-						when 0 => -- add
-							value_operand_1 := std_ulogic_vector( unsigned(in_val1) + unsigned(in_val2) );
-						when 1 => -- sub
-							value_operand_1 := std_ulogic_vector( unsigned(in_val1) - unsigned(in_val2) );
-						when 2 => -- load
+						when 0 => -- load
 							-- получаем значение из памяти
-							value_operand_1 := in_val1; --in_val2???
-						when 3 => -- store
+							value_operand_1 := in_val1;
+							counter <= 3;
+						when 1 => -- store
 							-- получаем значение из регистра первого операнда
 							value_operand_1 := in_val1;
 							-- получаем адрес в памяти из второго операнда
 							value_operand_2 := "000000" & now_operand_2;
-						when others => 
+							counter <= 3;
+						when 2 => -- add
+							value_operand_1 := std_ulogic_vector( unsigned(in_val1) + unsigned(in_val2) );
+							counter <= 3;
+						when 3 => -- mul
+							value_operand_1 := std_ulogic_vector( unsigned(in_val1) * unsigned(in_val2) );
+							-- wait 4 такта
+							while counter < 6 loop
+								wait until clk'event and clk='1';
+								counter <= counter + 1;
+							end loop;
 					end case;
-					counter <= 3;
-				when 3 => -- запись результата
-					if (to_integer(unsigned(now_command)) = 0 or to_integer(unsigned(now_command)) = 1) then  -- add or sub
+				when 3 => -- запись результата для load, store, add					
+					if (to_integer(unsigned(now_command)) = 0) then --load
 							-- пишем значение в регистр первого операнда
 							we_flag_reg <= '1';
 							out_val <= value_operand_1;
 					end if;
-					if (to_integer(unsigned(now_command)) = 2) then --load
-							-- пишем значение в регистр первого операнда
-							we_flag_reg <= '1';
-							out_val <= value_operand_1;
-					end if;
-					if (to_integer(unsigned(now_command)) = 3) then --store
+					if (to_integer(unsigned(now_command)) = 1) then --store
 							-- пишем значение из регистра в память
 							we<='1';
 							ram_addr <= value_operand_2((addr_length - 1) downto 0);
 							out_val <= value_operand_1;
 					end if;
+					if (to_integer(unsigned(now_command)) = 2) then  -- add
+							we_flag_reg <= '1';
+							out_val <= value_operand_1;
+					end if;
 					-- обнуляем переменные
 					we_flag_reg <= '0';
 					we <= '0';
-	--    		now_command := 0;
-	--    		now_operand_1 := 0;
-	--    		now_operand_2 := 0;
-	--				value_operand_1 := 0;
-	--				value_operand_2 := 0;
-	--				ram_addr <= 0;
 					counter <= 0;
-				when others =>
+				when 6 => --запись результата для sub
+					if (to_integer(unsigned(now_command)) = 3) then  -- sub
+							we_flag_reg <= '1';
+							out_val <= value_operand_1;
+					end if;
 					counter <= 0;
+					we_flag_reg <= '0';
+					we <= '0';
 			end case;
 		end if;
 	end process;
