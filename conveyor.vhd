@@ -20,9 +20,11 @@ port ( --входы и выходы
 		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- данные второго операнда
 		-- out_command: out std_ulogic_vector((command_length-1) downto 0); -- команда на выход
 		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
-		out_operand_2: out std_ulogic_vector((addr_length-1) downto 0); -- второй операнд, выход
+		out_operand_2: out std_ulogic_vector((operand_length-1) downto 0); -- второй операнд, выход
 		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение
 		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- адрес внешней памяти
+		ram_val_in: out std_ulogic_vector( (reg_size-1) downto 0); -- данные во внешнюю память
+		ram_val_out: in std_ulogic_vector( (reg_size-1) downto 0); -- данные с внешней памяти
 		we: out std_logic; -- разрешение на запись в память
 		we_flag_reg: out std_logic -- разрешение на запись в регистр
 );
@@ -50,7 +52,7 @@ begin
 						when 0 | 1 => -- add or sub
 							-- отправляем запрос на чтение значений из регистров
 							out_operand_1 <= now_operand_1;
-							out_operand_2 <= now_operand_2;
+							out_operand_2 <= now_operand_2((operand_length-1) downto 0);
 						when 2 => -- load
 							-- отправляем запрос на чтение значения из внешней памяти, второй операнд
 							we <= '0';
@@ -69,7 +71,7 @@ begin
 							value_operand_1 := std_ulogic_vector( unsigned(in_val1) - unsigned(in_val2) );
 						when 2 => -- load
 							-- получаем значение из памяти
-							value_operand_1 := in_val1; --in_val2???
+							value_operand_1 := ram_val_out;
 						when 3 => -- store
 							-- получаем значение из регистра первого операнда
 							value_operand_1 := in_val1;
@@ -93,7 +95,7 @@ begin
 							-- пишем значение из регистра в память
 							we<='1';
 							ram_addr <= value_operand_2((addr_length - 1) downto 0);
-							out_val <= value_operand_1;
+							ram_val_in <= value_operand_1;
 					end if;
 					-- обнуляем переменные
 					we_flag_reg <= '0';
