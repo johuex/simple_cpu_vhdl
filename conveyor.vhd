@@ -13,15 +13,16 @@ generic (
 	reg_size: integer := 16 -- размер регистра (должен быть равен размеру ячейки памяти)
 );
 port ( --входы и выходы
+		reset: in std_logic; --ресет
 		clk: in std_logic; --тактирование
-		in_data: in std_ulogic_vector( (command_length + operand_length + addr_length - 1) downto 0); -- входные данные
+		in_data: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные
 		in_val1: in std_ulogic_vector( (reg_size-1) downto 0); -- данные первого операнда
 		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- данные второго операнда
-		out_command: out std_ulogic_vector((command_length-1) downto 0); -- команда на выход
+		-- out_command: out std_ulogic_vector((command_length-1) downto 0); -- команда на выход
 		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 		out_operand_2: out std_ulogic_vector((addr_length-1) downto 0); -- второй операнд, выход
 		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение
-		ram_addr: out std_ulogic_vector( (operand_length-1) downto 0); -- адрес внешней памяти
+		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- адрес внешней памяти
 		we: out std_logic; -- разрешение на запись в память
 		we_flag_reg: out std_logic -- разрешение на запись в регистр
 );
@@ -31,7 +32,7 @@ architecture conveyor_rtl of conveyor is
 signal counter: integer := 0; -- текущее состояние
 begin
 	process (clk)
-		variable now_command : std_ulogic_vector( (reg_size - 1) downto 0); -- Код операции
+		variable now_command : std_ulogic_vector( (command_length - 1) downto 0); -- Код операции
 		variable now_operand_1 : std_ulogic_vector( (operand_length - 1) downto 0); -- Операнд 1
 		variable now_operand_2 : std_ulogic_vector( (addr_length - 1) downto 0); -- Операнд 2
 		variable value_operand_1 : std_ulogic_vector( (reg_size - 1) downto 0); -- Данные операнда 1
@@ -40,9 +41,9 @@ begin
 		if (clk'event and clk = '1') then 
 			case counter is
 				when 0 => -- выборка команды
-					now_command := in_data(0 to (command_length - 1));
-					now_operand_1 := in_data(command_length to (command_length + operand_length - 1));
-					now_operand_2 := in_data((command_length + operand_length) to (command_length + operand_length + addr_length - 1));
+					now_command := in_data((command_length + operand_length + addr_length - 1) downto (operand_length + addr_length));
+					now_operand_1 := in_data((operand_length + addr_length - 1) downto addr_length);
+					now_operand_2 := in_data((addr_length - 1) downto 0);
 					counter <= 1;
 				when 1 => -- выборка операндов
 					case to_integer(unsigned(now_command)) is
@@ -57,6 +58,7 @@ begin
 						when 3 => -- store
 							-- отправляем запрос на чтение значения из регистра, первый операнд
 							out_operand_1 <= now_operand_1;
+						when others => 
 					end case;
 					counter <= 2;
 				when 2 => -- вычисление результата
@@ -72,7 +74,8 @@ begin
 							-- получаем значение из регистра первого операнда
 							value_operand_1 := in_val1;
 							-- получаем адрес в памяти из второго операнда
-							value_operand_2 := now_operand_2;
+							value_operand_2 := "000000" & now_operand_2;
+						when others => 
 					end case;
 					counter <= 3;
 				when 3 => -- запись результата
@@ -89,7 +92,7 @@ begin
 					if (to_integer(unsigned(now_command)) = 3) then --store
 							-- пишем значение из регистра в память
 							we<='1';
-							ram_addr <= value_operand_2;
+							ram_addr <= value_operand_2((addr_length - 1) downto 0);
 							out_val <= value_operand_1;
 					end if;
 					-- обнуляем переменные
@@ -101,7 +104,6 @@ begin
 	--				value_operand_1 := 0;
 	--				value_operand_2 := 0;
 	--				ram_addr <= 0;
-					
 					counter <= 0;
 				when others =>
 					counter <= 0;
