@@ -13,18 +13,18 @@ generic (
 port ( --входы и выходы
 		reset: in std_logic; --ресет
 		clk: in std_logic; --тактирование
-		in_data: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные
-		in_val1: in std_ulogic_vector( (reg_size-1) downto 0); -- данные первого операнда
-		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- данные второго операнда
-		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
-		out_operand_2: out std_ulogic_vector((operand_length-1) downto 0); -- второй операнд, выход
-		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение
-		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- адрес внешней памяти
-		ram_val_in: out std_ulogic_vector( (reg_size-1) downto 0); -- данные во внешнюю память
-		ram_val_out: in std_ulogic_vector( (reg_size-1) downto 0); -- данные с внешней памяти
-		we: out std_logic; -- разрешение на запись в память
+		in_data: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные (команда + операнды и тд)
+		in_val1: in std_ulogic_vector( (reg_size-1) downto 0); -- значение первого операнда
+		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- значение второго операнда
+		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение первого операнда, регистр
+		out_operand_2: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение второго операнда, регистр
+		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение операции
+		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- обращаемся к RAM по адресу
+		ram_val_in: out std_ulogic_vector( (reg_size-1) downto 0); -- данные в RAM
+		ram_val_out: in std_ulogic_vector( (reg_size-1) downto 0); -- данные из RAM
+		we_ram_flag: out std_logic; -- разрешение на запись в RAM
 		we_flag_reg: out std_logic; -- разрешение на запись в регистр
-		idle_flag: in std_logic
+		idle_flag: in std_logic -- флаг простоя конвеера
 );
 end entity conveyor;
 
@@ -55,7 +55,7 @@ begin
 						when 2 => -- load
 						if idle_flag != '1' then  -- проверяем не нужно ли пропускать такт
 							-- отправляем запрос на чтение значения из внешней памяти, второй операнд
-							we <= '0';
+							we_ram_flag <= '0';
 							ram_addr <= now_operand_2;
 						end if;
 						when 3 => -- store
@@ -99,7 +99,7 @@ begin
 					end if;
 					if (to_integer(unsigned(now_command)) = 1) then --store
 							-- пишем значение из регистра в память
-							we<='1';
+							we_ram_flag <='1';
 							ram_addr <= value_operand_2((addr_length - 1) downto 0);
 							ram_val_in <= value_operand_1;
 					end if;
@@ -113,7 +113,7 @@ begin
 					end if;
 					-- обнуляем переменные
 					we_flag_reg <= '0';
-					we <= '0';
+					we_ram_flag <= '0';
 					counter <= 0;
 					mul_counter := 0;
 				when others =>

@@ -20,48 +20,33 @@ port (
 	-- * x2 выхода, значения регистров
 	-- * выход, что конвеер должен пропустить такт
 	we_1 : in std_logic;
-	rd1_addr_1 : in  std_ulogic_vector((addr_length-1) downto 0);
-	rd2_addr_1 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_addr_1  : in std_ulogic_vector((addr_length-1) downto 0);
+	addr_1 : in  std_ulogic_vector((addr_length-1) downto 0);
 	wr_data_1  : in std_logic_vector((reg_size-1) downto 0);
-	rd1_data_1 : out std_logic_vector((reg_size-1) downto 0);
-	rd2_data_1 : out std_logic_vector((reg_size-1) downto 0);
+	out_data_1 : out std_logic_vector((reg_size-1) downto 0);
 	conveyor_idle_1: out std_logic;
 	
 	we_2 : in std_logic;
-	rd1_addr_2 : in  std_ulogic_vector((addr_length-1) downto 0);
-	rd2_addr_2 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_addr_2  : in std_ulogic_vector((addr_length-1) downto 0);
+	addr_2 : in  std_ulogic_vector((addr_length-1) downto 0);
 	wr_data_2  : in std_logic_vector((reg_size-1) downto 0);
-	rd1_data_2 : out std_logic_vector((reg_size-1) downto 0);
-	rd2_data_2 : out std_logic_vector((reg_size-1) downto 0);
+	out_data_2 : out std_logic_vector((reg_size-1) downto 0);
 	conveyor_idle_2: out std_logic;
 	
 	we_3 : in std_logic;
-	rd1_addr_3 : in  std_ulogic_vector((addr_length-1) downto 0);
-	rd2_addr_3 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_addr_3  : in std_ulogic_vector((addr_length-1) downto 0);
+	addr_3 : in  std_ulogic_vector((addr_length-1) downto 0);
 	wr_data_3  : in std_logic_vector((reg_size-1) downto 0);
-	rd1_data_3 : out std_logic_vector((reg_size-1) downto 0);
-	rd2_data_3 : out std_logic_vector((reg_size-1) downto 0);
+	out_data_3 : out std_logic_vector((reg_size-1) downto 0);
 	conveyor_idle_3: out std_logic;
 	
 	we_4 : in std_logic;
-	rd1_addr_4 : in  std_ulogic_vector((addr_length-1) downto 0);
-	rd2_addr_4 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_addr_4  : in std_ulogic_vector((addr_length-1) downto 0);
+	addr_4 : in  std_ulogic_vector((addr_length-1) downto 0);
 	wr_data_4  : in std_logic_vector((reg_size-1) downto 0);
-	rd1_data_4 : out std_logic_vector((reg_size-1) downto 0);
-	rd2_data_4 : out std_logic_vector((reg_size-1) downto 0);
+	out_data_4 : out std_logic_vector((reg_size-1) downto 0);
 	conveyor_idle_4: out std_logic;
 	
 	we_5 : in std_logic;
-	rd1_addr_5 : in  std_ulogic_vector((addr_length-1) downto 0);
-	rd2_addr_5 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_addr_5  : in std_ulogic_vector((addr_length-1) downto 0);
+	addr_5 : in  std_ulogic_vector((addr_length-1) downto 0);
 	wr_data_5  : in std_logic_vector((reg_size-1) downto 0);
-	rd1_data_5 : out std_logic_vector((reg_size-1) downto 0);
-	rd2_data_5 : out std_logic_vector((reg_size-1) downto 0);
+	out_data_5 : out std_logic_vector((reg_size-1) downto 0);
 	conveyor_idle_5: out std_logic
 );
 end entity memory;
@@ -82,109 +67,104 @@ begin
 			
 			-- conflict resolving
 			-- при конфликте запись-чтение, сначала даем записать, потом прочитать
-			if (rd1_addr_1 = wr_addr_2) or (rd2_addr_1 = wr_addr_2) then
+			if (addr_1 = addr_2) then
 				conveyor_idle_1 <= '1';
 			end if;
-			if (rd1_addr_1 = wr_addr_3) or (rd2_addr_1 = wr_addr_3) then
+			if (addr_1 = addr_3) then
 				conveyor_idle_1 <= '1';
 			end if;
-			if (rd1_addr_1 = wr_addr_4) or (rd2_addr_1 = wr_addr_4) then
+			if (addr_1 = addr_4) then
 				conveyor_idle_1 <= '1';
 			end if;
-			if (rd1_addr_1 = wr_addr_5) or (rd2_addr_1 = wr_addr_5) then
+			if (addr_1 = addr_5) then
 				conveyor_idle_1 <= '1';
 			end if;
 			
-			if (rd1_addr_2 = wr_addr_1) or (rd2_addr_2 = wr_addr_1) then
+			if (addr_2 = addr_1) then
 				conveyor_idle_2 <= '1';
 			end if;
-			if (rd1_addr_2 = wr_addr_3) or (rd2_addr_2 = wr_addr_3) then
+			if (addr_2 = addr_3) then
 				conveyor_idle_2 <= '1';
 			end if;
-			if (rd1_addr_2 = wr_addr_4) or (rd2_addr_2 = wr_addr_4) then
+			if (addr_2 = addr_4) then
 				conveyor_idle_2 <= '1';
 			end if;
-			if (rd1_addr_2 = wr_addr_5) or (rd2_addr_2 = wr_addr_5) then
+			if (addr_2 = addr_5) then
 				conveyor_idle_2 <= '1';
 			end if;
 			
-			if (rd1_addr_3 = wr_addr_1) or (rd2_addr_3 = wr_addr_1) then
+			if (addr_3 = addr_1) then
 				conveyor_idle_3 <= '1';
 			end if;
-			if (rd1_addr_3 = wr_addr_2) or (rd2_addr_3 = wr_addr_2) then
+			if (addr_3 = addr_2) then
 				conveyor_idle_3 <= '1';
 			end if;
-			if (rd1_addr_3 = wr_addr_4) or (rd2_addr_3 = wr_addr_4) then
+			if (addr_3 = addr_4) then
 				conveyor_idle_3 <= '1';
 			end if;
-			if (rd1_addr_3 = wr_addr_5) or (rd2_addr_3 = wr_addr_5) then
+			if (addr_3 = addr_5) then
 				conveyor_idle_3 <= '1';
 			end if;
 			
-			if (rd1_addr_4 = wr_addr_1) or (rd2_addr_4 = wr_addr_1) then
+			if (addr_4 = addr_1) then
 				conveyor_idle_4 <= '1';
 			end if;
-			if (rd1_addr_4 = wr_addr_2) or (rd2_addr_4 = wr_addr_2) then
+			if (addr_4 = addr_2) then
 				conveyor_idle_4 <= '1';
 			end if;
-			if (rd1_addr_4 = wr_addr_3) or (rd2_addr_4 = wr_addr_3) then
+			if (addr_4 = addr_3) then
 				conveyor_idle_4 <= '1';
 			end if;
-			if (rd1_addr_4 = wr_addr_5) or (rd2_addr_4 = wr_addr_5) then
+			if (addr_4 = addr_5) then
 				conveyor_idle_4 <= '1';
 			end if;
 			
-			if (rd1_addr_5 = wr_addr_1) or (rd2_addr_5 = wr_addr_1) then
+			if (addr_5 = addr_1) then
 				conveyor_idle_5 <= '1';
 			end if;
-			if (rd1_addr_5 = wr_addr_2) or (rd2_addr_5 = wr_addr_2) then
+			if (addr_5 = addr_2) then
 				conveyor_idle_5 <= '1';
 			end if;
-			if (rd1_addr_5 = wr_addr_3) or (rd2_addr_5 = wr_addr_3) then
+			if (addr_5 = addr_3) then
 				conveyor_idle_5 <= '1';
 			end if;
-			if (rd1_addr_5 = wr_addr_4) or (rd2_addr_5 = wr_addr_4) then
+			if (addr_5 = addr_4) then
 				conveyor_idle_5 <= '1';
 			end if;
 			
 			-- write to RAM
 			if we_1 = '1' then
-				mem_arr(conv_integer(unsigned(wr_addr_1))) <= wr_data_1;
+				mem_arr(conv_integer(unsigned(addr_1))) <= wr_data_1;
 			end if;
 			if we_2 = '1' then
-				mem_arr(conv_integer(unsigned(wr_addr_2))) <= wr_data_2;
+				mem_arr(conv_integer(unsigned(addr_2))) <= wr_data_2;
 			end if;
 			if we_3 = '1' then
-				mem_arr(conv_integer(unsigned(wr_addr_3))) <= wr_data_3;
+				mem_arr(conv_integer(unsigned(addr_3))) <= wr_data_3;
 			end if;
 			if we_4 = '1' then
-				mem_arr(conv_integer(unsigned(wr_addr_4))) <= wr_data_4;
+				mem_arr(conv_integer(unsigned(addr_4))) <= wr_data_4;
 			end if;
 			if we_5 = '1' then
-				mem_arr(conv_integer(unsigned(wr_addr_5))) <= wr_data_5;
+				mem_arr(conv_integer(unsigned(addr_5))) <= wr_data_5;
 			end if;
 			
 			-- read RAM output
 			-- не даем считать, если есть блок
 			if conveyor_idle_1 != '1' then
-				rd1_data_1 <= regs(conv_integer(unsigned(rd1_addr_1)));
-				rd2_data_1 <= regs(conv_integer(unsigned(rd2_addr_1)));
+				rd_data_1 <= regs(conv_integer(unsigned(addr_1)));
 			end if;
 			if conveyor_idle_2 != '1' then
-				rd1_data_2 <= regs(conv_integer(unsigned(rd1_addr_2)));
-				rd2_data_2 <= regs(conv_integer(unsigned(rd2_addr_2)));
+				rd_data_2 <= regs(conv_integer(unsigned(addr_2)));
 			end if;
 			if conveyor_idle_3 != '1' then
-				rd1_data_3 <= regs(conv_integer(unsigned(rd1_addr_3)));
-				rd2_data_3 <= regs(conv_integer(unsigned(rd2_addr_3)));
+				rd_data_3 <= regs(conv_integer(unsigned(addr_3)));
 			end if;
 			if conveyor_idle_4 != '1' then
-				rd1_data_4 <= regs(conv_integer(unsigned(rd1_addr_4)));
-				rd2_data_4 <= regs(conv_integer(unsigned(rd2_addr_4)));
+				rd_data_4 <= regs(conv_integer(unsigned(addr_4)));
 			end if;
 			if conveyor_idle_5 != '1' then
-				rd1_data_5 <= regs(conv_integer(unsigned(rd1_addr_5)));
-				rd2_data_5 <= regs(conv_integer(unsigned(rd2_addr_5)));
+				rd_data_5 <= regs(conv_integer(unsigned(addr_5)));
 			end if;
 		end if;
 		

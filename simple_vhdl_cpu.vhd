@@ -29,54 +29,67 @@ port (
 end entity simple_vhdl_cpu;
 
 architecture cpu_rtl of simple_vhdl_cpu is
--- Для каждого конвейера начало
+-- Для каждого конвейера входы и выходы
 signal value1_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
 signal out_operand1_1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 signal out_operand2_1: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
-signal we_reg_1: std_logic; 
+signal we_flag_reg_1: std_logic;
+signal we_ram_flag_1: std_logic;
+signal ram_addr_1: std_ulogic_vector( (addr_length-1) downto 0);
+signal ram_val_in_1: std_ulogic_vector( (reg_size-1) downto 0);
+signal ram_val_out_1: std_ulogic_vector( (reg_size-1) downto 0);
+signal idle_flag_1: std_logic;
 
 signal value1_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
 signal out_operand1_2: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 signal out_operand2_2: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
-signal we_reg_2: std_logic; 
+signal we_flag_reg_2: std_logic;
+signal we_ram_flag_2: std_logic;
+signal ram_addr_2: std_ulogic_vector( (addr_length-1) downto 0);
+signal ram_val_in_2: std_ulogic_vector( (reg_size-1) downto 0);
+signal ram_val_out_2: std_ulogic_vector( (reg_size-1) downto 0);
+signal idle_flag_2: std_logic;
 
 signal value1_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
 signal out_operand1_3: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 signal out_operand2_3: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
-signal we_reg_3: std_logic; 
+signal we_flag_reg_3: std_logic;
+signal we_ram_flag_3: std_logic;
+signal ram_addr_3: std_ulogic_vector( (addr_length-1) downto 0);
+signal ram_val_in_3: std_ulogic_vector( (reg_size-1) downto 0);
+signal ram_val_out_3: std_ulogic_vector( (reg_size-1) downto 0);
+signal idle_flag_3: std_logic;
 
 signal value1_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
 signal out_operand1_4: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 signal out_operand2_4: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
-signal we_reg_4: std_logic; 
+signal we_flag_reg_4: std_logic;
+signal we_ram_flag_4: std_logic;
+signal ram_addr_4: std_ulogic_vector( (addr_length-1) downto 0);
+signal ram_val_in_4: std_ulogic_vector( (reg_size-1) downto 0);
+signal ram_val_out_4: std_ulogic_vector( (reg_size-1) downto 0);
+signal idle_flag_4: std_logic;
 
 signal value1_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
 signal out_operand1_5: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
 signal out_operand2_5: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
-signal we_reg_5: std_logic; 
-
---Для каждого конвейера конец ???
-signal ram_val_in: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
-signal ram_val_out: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
-signal ram_addr: std_ulogic_vector( (addr_length-1) downto 0); 		-- адрес внешней памяти
-signal we: std_logic; 																-- разрешение на запись в память
-signal we_flag_reg: std_logic; 													-- разрешение на запись в регистр
-
--- Регистры общего назначения
-type reg_array is array(0 to 7) of std_logic_vector((reg_size-1) downto 0);
-signal REGS: reg_array;
--- Программный счетчик
-signal PC: std_logic_vector(7 downto 0) := (others => '0');
+signal we_flag_reg_5: std_logic;
+signal we_ram_flag_5: std_logic;
+signal ram_addr_5: std_ulogic_vector( (addr_length-1) downto 0);
+signal ram_val_in_5: std_ulogic_vector( (reg_size-1) downto 0);
+signal ram_val_out_5: std_ulogic_vector( (reg_size-1) downto 0);
+signal idle_flag_5: std_logic
+ 
 begin
 	-- Оперативная память
 	RAM : entity work.memory
@@ -88,15 +101,35 @@ begin
 	port map(
 		clk => clk,
 		reset => reset,
-		we_1 => ,				
-		rd1_addr_1 => ,			
-		rd2_addr_1 => , 	
-		wr_addr_1 => ,
-		wr_data_1 => ,
-		rd1_data_1 => ,
-		rd2_data_1 => ,
-		conveyor_idle_1 => ,
-		-- todo соединить со всеми конвеерами
+		we_1 => we_ram_flag_1,				
+		addr_1 => ram_addr_1,	
+		wr_data_1 => ram_val_in_1,
+		out_data_1 => value1_1,
+		conveyor_idle_1 => idle_flag_1,
+
+		we_2 => we_ram_flag_2,				
+		addr_2 => ram_addr_2,	
+		wr_data_2 => ram_val_in_2,
+		out_data_2 => value1_2,
+		conveyor_idle_2 => idle_flag_2,
+		
+		we_3 => we_ram_flag_3,				
+		addr_3 => ram_addr_3,	
+		wr_data_3 => ram_val_in_3,
+		out_data_3 => value1_3,
+		conveyor_idle_3 => idle_flag_3,
+
+		we_4 => we_ram_flag_4,				
+		addr_4 => ram_addr_4,	
+		wr_data_4 => ram_val_in_4,
+		out_data_4 => value1_4,
+		conveyor_idle_4 => idle_flag_4,
+
+		we_5 => we_ram_flag_5,				
+		addr_5 => ram_addr_5,	
+		wr_data_5 => ram_val_in_5,
+		out_data_5 => value1_5,
+		conveyor_idle_5 => idle_flag_5,
 	);
 	
 	-- Конвейеры
@@ -108,22 +141,117 @@ begin
 		reg_size => reg_size
 	)
 	port map(
-		reset => reset,   					-- ресет
-		clk => clk, 							-- тактирование
-		in_data => in_command_1, 			-- входные данные
-		in_val1 => value1_1, 					-- данные первого операнда
-		in_val2 => value2_1, 					-- данные второго операнда
-		out_operand_1 => , 	-- первый операнд, выход
-		out_operand_2 => , 	-- второй операнд, выход
-		out_val => , 					-- выходное значение
-		ram_addr => ram_addr, 				-- адрес внешней памяти
-		ram_val_in => ram_val_in,			-- данные во внешнюю память
-		ram_val_out => ram_val_out,		-- данные с внешней памяти
-		we => we,  								-- разрешение на запись в память
-		we_flag_reg => we_flag_reg, 		-- разрешение на запись в регистр
-		idle_flag => 
+		reset => reset, 
+		clk => clk, 
+		in_data => in_command_1, 
+		in_val1 => value1_1, 
+		in_val2 => value2_1, 
+		out_operand_1 => , -- todo
+		out_operand_2 => ,
+		out_val => ,
+		ram_addr => ram_addr_1,
+		ram_val_in => ram_val_in_1,
+		ram_val_out => ram_val_out_1,
+		we => we_1,
+		we_flag_reg => we_flag_reg_1,
+		idle_flag => conveyor_idle_1
 	);
-	-- TODO добавить контейнеры
+	
+	conveyor_2 : entity work.conveyor
+	generic map(
+		command_length => command_length,
+		operand_length => operand_length,
+		addr_length => addr_length,
+		reg_size => reg_size
+	)
+	port map(
+		reset => reset, 
+		clk => clk, 
+		in_data => in_command_2, 
+		in_val1 => value1_2, 
+		in_val2 => value2_2, 
+		out_operand_1 => , -- todo
+		out_operand_2 => , -- todo
+		out_val => , -- todo
+		ram_addr => ram_addr_2,
+		ram_val_in => ram_val_in_2,
+		ram_val_out => ram_val_out_2,
+		we => we_2,
+		we_flag_reg => we_flag_reg_2,
+		idle_flag => conveyor_idle_1
+	);
+
+	conveyor_3 : entity work.conveyor
+	generic map(
+		command_length => command_length,
+		operand_length => operand_length,
+		addr_length => addr_length,
+		reg_size => reg_size
+	)
+	port map(
+		reset => reset, 
+		clk => clk, 
+		in_data => in_command_3, 
+		in_val1 => value1_3, 
+		in_val2 => value2_3, 
+		out_operand_1 => , -- todo
+		out_operand_2 => , -- todo
+		out_val => , -- todo
+		ram_addr => ram_addr_3,
+		ram_val_in => ram_val_in_3,
+		ram_val_out => ram_val_out_3,
+		we => we_3,
+		we_flag_reg => we_flag_reg_3,
+		idle_flag => conveyor_idle_3
+	);
+
+	conveyor_4 : entity work.conveyor
+	generic map(
+		command_length => command_length,
+		operand_length => operand_length,
+		addr_length => addr_length,
+		reg_size => reg_size
+	)
+	port map(
+		reset => reset, 
+		clk => clk, 
+		in_data => in_command_4, 
+		in_val1 => value1_4, 
+		in_val2 => value2_4, 
+		out_operand_1 => , -- todo
+		out_operand_2 => , -- todo
+		out_val => , -- todo
+		ram_addr => ram_addr_4,
+		ram_val_in => ram_val_in_4,
+		ram_val_out => ram_val_out_4,
+		we => we_4,
+		we_flag_reg => we_flag_reg_4,
+		idle_flag => conveyor_idle_4
+	);
+
+	conveyor_5 : entity work.conveyor
+	generic map(
+		command_length => command_length,
+		operand_length => operand_length,
+		addr_length => addr_length,
+		reg_size => reg_size
+	)
+	port map(
+		reset => reset, 
+		clk => clk, 
+		in_data => in_command_5, 
+		in_val1 => value1_5, 
+		in_val2 => value2_5, 
+		out_operand_1 => , -- todo
+		out_operand_2 => , -- todo
+		out_val => , -- todo
+		ram_addr => ram_addr_5,
+		ram_val_in => ram_val_in_5,
+		ram_val_out => ram_val_out_5,
+		we => we_5,
+		we_flag_reg => we_flag_reg_5,
+		idle_flag => conveyor_idle_5
+	);
 	
 	-- Генератор тактовой частоты
 	process (clk)
