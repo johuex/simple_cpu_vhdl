@@ -15,10 +15,10 @@ generic (
 	reg_size: integer := 16;
 	mem_size: integer := 1024;
 	t: time := 2ns
+	reg_count: integer := 10;
 );
 port (
 	reset: in std_logic;
-	
 	-- подача команд на конвейеры
 	in_command_1: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 	in_command_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
@@ -28,24 +28,44 @@ port (
 );
 end entity simple_vhdl_cpu;
 
-architecture cup_rtl of simple_vhdl_cpu is
-signal clk: std_logic := '0';
---signal reset: std_logic := '0';
-	-- Входы инструкций на конвейеры
---signal in_command_1: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_2: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_3: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_4: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-
+architecture cpu_rtl of simple_vhdl_cpu is
 -- Для каждого конвейера начало
-signal value1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
-signal value2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
-signal out_operand1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
-signal out_operand2: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
-signal out_val: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal value1_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_1: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal we_reg_1: std_logic; 
 
---Для каждого конвейера конец
+signal value1_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_2: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_2: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal we_reg_2: std_logic; 
+
+signal value1_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_3: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_3: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal we_reg_3: std_logic; 
+
+signal value1_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_4: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_4: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal we_reg_4: std_logic; 
+
+signal value1_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
+signal value2_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_5: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_5: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal out_val_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
+signal we_reg_5: std_logic; 
+
+--Для каждого конвейера конец ???
 signal ram_val_in: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
 signal ram_val_out: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
 signal ram_addr: std_ulogic_vector( (addr_length-1) downto 0); 		-- адрес внешней памяти
@@ -66,12 +86,17 @@ begin
 		mem_size => mem_size
 	)
 	port map(
-		clk => clk,					--тактирование
-		we => we, 					-- разрешение записи
-		reset => reset,			-- ресет
-		addr => ram_addr,			--адрес ячейки памяти
-		datai => ram_val_in, 	--данные для записи в память
-		datao => ram_val_out 	--данные, читаемые из памяти
+		clk => clk,
+		reset => reset,
+		we_1 => ,				
+		rd1_addr_1 => ,			
+		rd2_addr_1 => , 	
+		wr_addr_1 => ,
+		wr_data_1 => ,
+		rd1_data_1 => ,
+		rd2_data_1 => ,
+		conveyor_idle_1 => ,
+		-- todo соединить со всеми конвеерами
 	);
 	
 	-- Конвейеры
@@ -86,19 +111,17 @@ begin
 		reset => reset,   					-- ресет
 		clk => clk, 							-- тактирование
 		in_data => in_command_1, 			-- входные данные
-		in_val1 => value1, 					-- данные первого операнда
-		in_val2 => value2, 					-- данные второго операнда
-		out_operand_1 => out_operand1, 	-- первый операнд, выход
-		out_operand_2 => out_operand2, 	-- второй операнд, выход
-		out_val => out_val, 					-- выходное значение
+		in_val1 => value1_1, 					-- данные первого операнда
+		in_val2 => value2_1, 					-- данные второго операнда
+		out_operand_1 => , 	-- первый операнд, выход
+		out_operand_2 => , 	-- второй операнд, выход
+		out_val => , 					-- выходное значение
 		ram_addr => ram_addr, 				-- адрес внешней памяти
 		ram_val_in => ram_val_in,			-- данные во внешнюю память
 		ram_val_out => ram_val_out,		-- данные с внешней памяти
 		we => we,  								-- разрешение на запись в память
-		we_flag_reg => we_flag_reg 		-- разрешение на запись в регистр
-		-- TODO Сделать чтение регистра
-		-- TODO Сделать увеличение счетчика программного PC
-		-- TODO чтение\запись в RAM
+		we_flag_reg => we_flag_reg, 		-- разрешение на запись в регистр
+		idle_flag => 
 	);
 	-- TODO добавить контейнеры
 	
@@ -107,21 +130,6 @@ begin
 	begin
 		if clk = '0' then
 			clk <= '1' after t, '0' after 2*t;
-		end if;
-	end process;
-	
-	-- reset
-	process (reset)
-	begin
-		if reset = '1' then
-			REGS(0) <= x"0000";
-			REGS(1) <= x"0001";
-			REGS(2) <= x"0002";
-			REGS(3) <= x"0003";
-			REGS(4) <= x"0004";
-			REGS(5) <= x"0005";
-			REGS(6) <= x"0006";
-			REGS(7) <= x"0007";
 		end if;
 	end process;
 	
