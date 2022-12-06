@@ -73,6 +73,13 @@ begin
 	process (clk, reset)
 	begin
 		if (clk'event and clk='1') then
+			-- обнуляем блокировки каждый такт
+			conveyor_idle_1 <= '0';
+			conveyor_idle_2 <= '0';
+			conveyor_idle_3 <= '0';
+			conveyor_idle_4 <= '0';
+			conveyor_idle_5 <= '0';
+			
 			-- conflict resolving
 			-- при конфликте запись-чтение, сначала даем записать, потом прочитать
 			if (rd1_addr_1 = wr_addr_2) or (rd2_addr_1 = wr_addr_2) then
@@ -141,44 +148,44 @@ begin
 			end if;
 			
 			-- write to RAM
-				if we_1 = '1' then
-					mem_arr(conv_integer(unsigned(wr_addr_1))) <= wr_data_1;
-				end if;
-				if we_2 = '1' then
-					mem_arr(conv_integer(unsigned(wr_addr_2))) <= wr_data_2;
-				end if;
-				if we_3 = '1' then
-					mem_arr(conv_integer(unsigned(wr_addr_3))) <= wr_data_3;
-				end if;
-				if we_4 = '1' then
-					mem_arr(conv_integer(unsigned(wr_addr_4))) <= wr_data_4;
-				end if;
-				if we_5 = '1' then
-					mem_arr(conv_integer(unsigned(wr_addr_5))) <= wr_data_5;
-				end if;
-				
-				-- read RAM output
-				-- не даем считать, если есть блок
-				if conveyor_idle_1 != '1' then
-					rd1_data_1 <= regs(conv_integer(unsigned(rd1_addr_1)));
-					rd2_data_1 <= regs(conv_integer(unsigned(rd2_addr_1)));
-				end if;
-				if conveyor_idle_2 != '1' then
-					rd1_data_2 <= regs(conv_integer(unsigned(rd1_addr_2)));
-					rd2_data_2 <= regs(conv_integer(unsigned(rd2_addr_2)));
-				end if;
-				if conveyor_idle_3 != '1' then
-					rd1_data_3 <= regs(conv_integer(unsigned(rd1_addr_3)));
-					rd2_data_3 <= regs(conv_integer(unsigned(rd2_addr_3)));
-				end if;
-				if conveyor_idle_4 != '1' then
-					rd1_data_4 <= regs(conv_integer(unsigned(rd1_addr_4)));
-					rd2_data_4 <= regs(conv_integer(unsigned(rd2_addr_4)));
-				end if;
-				if conveyor_idle_5 != '1' then
-					rd1_data_5 <= regs(conv_integer(unsigned(rd1_addr_5)));
-					rd2_data_5 <= regs(conv_integer(unsigned(rd2_addr_5)));
-				end if;
+			if we_1 = '1' then
+				mem_arr(conv_integer(unsigned(wr_addr_1))) <= wr_data_1;
+			end if;
+			if we_2 = '1' then
+				mem_arr(conv_integer(unsigned(wr_addr_2))) <= wr_data_2;
+			end if;
+			if we_3 = '1' then
+				mem_arr(conv_integer(unsigned(wr_addr_3))) <= wr_data_3;
+			end if;
+			if we_4 = '1' then
+				mem_arr(conv_integer(unsigned(wr_addr_4))) <= wr_data_4;
+			end if;
+			if we_5 = '1' then
+				mem_arr(conv_integer(unsigned(wr_addr_5))) <= wr_data_5;
+			end if;
+			
+			-- read RAM output
+			-- не даем считать, если есть блок
+			if conveyor_idle_1 != '1' then
+				rd1_data_1 <= regs(conv_integer(unsigned(rd1_addr_1)));
+				rd2_data_1 <= regs(conv_integer(unsigned(rd2_addr_1)));
+			end if;
+			if conveyor_idle_2 != '1' then
+				rd1_data_2 <= regs(conv_integer(unsigned(rd1_addr_2)));
+				rd2_data_2 <= regs(conv_integer(unsigned(rd2_addr_2)));
+			end if;
+			if conveyor_idle_3 != '1' then
+				rd1_data_3 <= regs(conv_integer(unsigned(rd1_addr_3)));
+				rd2_data_3 <= regs(conv_integer(unsigned(rd2_addr_3)));
+			end if;
+			if conveyor_idle_4 != '1' then
+				rd1_data_4 <= regs(conv_integer(unsigned(rd1_addr_4)));
+				rd2_data_4 <= regs(conv_integer(unsigned(rd2_addr_4)));
+			end if;
+			if conveyor_idle_5 != '1' then
+				rd1_data_5 <= regs(conv_integer(unsigned(rd1_addr_5)));
+				rd2_data_5 <= regs(conv_integer(unsigned(rd2_addr_5)));
+			end if;
 		end if;
 		
 		--сброс памяти
