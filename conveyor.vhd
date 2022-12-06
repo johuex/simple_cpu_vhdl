@@ -23,7 +23,8 @@ port ( --входы и выходы
 		ram_val_in: out std_ulogic_vector( (reg_size-1) downto 0); -- данные во внешнюю память
 		ram_val_out: in std_ulogic_vector( (reg_size-1) downto 0); -- данные с внешней памяти
 		we: out std_logic; -- разрешение на запись в память
-		we_flag_reg: out std_logic -- разрешение на запись в регистр
+		we_flag_reg: out std_logic; -- разрешение на запись в регистр
+		idle_flag: in std_logic
 );
 end entity conveyor;
 
@@ -38,7 +39,7 @@ begin
 		variable value_operand_2 : std_ulogic_vector( (reg_size - 1) downto 0); -- Данные операнда 2
 		variable mul_counter : integer := 0; --для задержки в 4 такта на умножении
 	begin
-		if (clk'event and clk = '1') then 
+		if (clk'event and clk = '1') then 		
 			case counter is
 				when 0 => -- выборка команды
 					now_command := in_data((command_length + operand_length + addr_length - 1) downto (operand_length + addr_length));
@@ -52,12 +53,16 @@ begin
 							out_operand_1 <= now_operand_1;
 							out_operand_2 <= now_operand_2((operand_length-1) downto 0);
 						when 2 => -- load
+						if idle_flag != '1' then  -- проверяем не нужно ли пропускать такт
 							-- отправляем запрос на чтение значения из внешней памяти, второй операнд
 							we <= '0';
 							ram_addr <= now_operand_2;
+						end if;
 						when 3 => -- store
+						if idle_flag != '1' then  -- проверяем не нужно ли пропускать такт
 							-- отправляем запрос на чтение значения из регистра, первый операнд
 							out_operand_1 <= now_operand_1;
+						end if;
 						when others => 
 					end case;
 					counter <= 2;

@@ -1,4 +1,7 @@
 --top level vhdl
+
+-- global TODO: connect registers and ram with conveyors + describe flags and connect them
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
