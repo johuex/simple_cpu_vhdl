@@ -1,7 +1,5 @@
 --top level vhdl
 
--- global TODO: connect registers and ram with conveyors + describe flags and connect them
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
@@ -12,8 +10,9 @@ generic (
 	command_length: integer := 2; 
 	operand_length: integer := 4;
 	addr_length: integer := 10;
-	reg_size: integer := 16;
-	mem_size: integer := 1024;
+	cell_size: integer := 32; -- размер ячейки
+	reg_size: integer := 10; -- кол-во регистров
+	ram_size: integer := 10;  -- кол-во ячеек в ram
 	t: time := 2ns
 	reg_count: integer := 10;
 );
@@ -95,8 +94,8 @@ begin
 	RAM : entity work.memory
 	generic map(
 		addr_length => addr_length,
-		reg_size => reg_size,
-		mem_size => mem_size
+		reg_size => cell_size,
+		mem_size => ram_size
 	)
 	port map(
 		clk => clk,
@@ -132,6 +131,52 @@ begin
 		conveyor_idle_5 => idle_flag_5,
 	);
 	
+	-- регистры
+	registries: entity work.registers
+	generic map(
+		addr_length => addr_length,
+		reg_size => cell_size,
+		mem_size => reg_size
+	)
+	port map(
+		clk => clk,
+		reset => reset,
+		we_1 => we_flag_reg_1,
+		rd1_addr_1 => out_operand1_1,
+		rd2_addr_1 => out_operand2_1,
+		wr_data_1 => out_val_1,
+		rd1_data_1 => value1_1,
+		rd2_data_1 => value2_1,
+		
+		we_2 => we_flag_reg_2,
+		rd1_addr_2 => out_operand1_2,
+		rd2_addr_2 => out_operand2_2,
+		wr_data_2 => out_val_2,
+		rd1_data_2 => value1_2,
+		rd2_data_2 => value2_2,
+		
+		we_3 => we_flag_reg_3,
+		rd1_addr_3 => out_operand1_3,
+		rd2_addr_3 => out_operand2_3,
+		wr_data_3 => out_val_3,
+		rd1_data_3 => value1_3,
+		rd2_data_3 => value2_3,
+
+		we_4 => we_flag_reg_4,
+		rd1_addr_4 => out_operand1_4,
+		rd2_addr_4 => out_operand2_4,
+		wr_data_4 => out_val_4,
+		rd1_data_4 => value1_4,
+		rd2_data_4 => value2_4,
+
+		we_5 => we_flag_reg_5,
+		rd1_addr_5 => out_operand1_5,
+		rd2_addr_5 => out_operand2_5,
+		wr_data_5 => out_val_5,
+		rd1_data_5 => value1_5,
+		rd2_data_5 => value2_5
+	);
+
 	-- Конвейеры
 	conveyor_1 : entity work.conveyor
 	generic map(
@@ -146,13 +191,13 @@ begin
 		in_data => in_command_1, 
 		in_val1 => value1_1, 
 		in_val2 => value2_1, 
-		out_operand_1 => , -- todo
-		out_operand_2 => ,
-		out_val => ,
+		out_operand_1 => out_operand1_1,
+		out_operand_2 => out_operand2_1,
+		out_val => out_val_1,
 		ram_addr => ram_addr_1,
 		ram_val_in => ram_val_in_1,
 		ram_val_out => ram_val_out_1,
-		we => we_1,
+		we_ram_flag => we_ram_flag_1,
 		we_flag_reg => we_flag_reg_1,
 		idle_flag => conveyor_idle_1
 	);
@@ -170,13 +215,13 @@ begin
 		in_data => in_command_2, 
 		in_val1 => value1_2, 
 		in_val2 => value2_2, 
-		out_operand_1 => , -- todo
-		out_operand_2 => , -- todo
-		out_val => , -- todo
+		out_operand_1 => out_operand1_2,
+		out_operand_2 => out_operand2_2,
+		out_val => out_val_2,
 		ram_addr => ram_addr_2,
 		ram_val_in => ram_val_in_2,
 		ram_val_out => ram_val_out_2,
-		we => we_2,
+		we_ram_flag => we_ram_flag_2,
 		we_flag_reg => we_flag_reg_2,
 		idle_flag => conveyor_idle_1
 	);
@@ -194,13 +239,13 @@ begin
 		in_data => in_command_3, 
 		in_val1 => value1_3, 
 		in_val2 => value2_3, 
-		out_operand_1 => , -- todo
-		out_operand_2 => , -- todo
-		out_val => , -- todo
+		out_operand_1 => out_operand1_3,
+		out_operand_2 => out_operand2_3,
+		out_val => out_val_3,
 		ram_addr => ram_addr_3,
 		ram_val_in => ram_val_in_3,
 		ram_val_out => ram_val_out_3,
-		we => we_3,
+		we_ram_flag => we_ram_flag_3,
 		we_flag_reg => we_flag_reg_3,
 		idle_flag => conveyor_idle_3
 	);
@@ -218,13 +263,13 @@ begin
 		in_data => in_command_4, 
 		in_val1 => value1_4, 
 		in_val2 => value2_4, 
-		out_operand_1 => , -- todo
-		out_operand_2 => , -- todo
-		out_val => , -- todo
+		out_operand_1 => out_operand1_4,
+		out_operand_2 => out_operand2_4,
+		out_val => out_val_4,
 		ram_addr => ram_addr_4,
 		ram_val_in => ram_val_in_4,
 		ram_val_out => ram_val_out_4,
-		we => we_4,
+		we_ram_flag => we_ram_flag_4,
 		we_flag_reg => we_flag_reg_4,
 		idle_flag => conveyor_idle_4
 	);
@@ -242,13 +287,13 @@ begin
 		in_data => in_command_5, 
 		in_val1 => value1_5, 
 		in_val2 => value2_5, 
-		out_operand_1 => , -- todo
-		out_operand_2 => , -- todo
-		out_val => , -- todo
+		out_operand_1 => out_operand1_5,
+		out_operand_2 => out_operand2_5,
+		out_val => out_val_5,
 		ram_addr => ram_addr_5,
 		ram_val_in => ram_val_in_5,
 		ram_val_out => ram_val_out_5,
-		we => we_5,
+		we_ram_flag => we_ram_flag_5,
 		we_flag_reg => we_flag_reg_5,
 		idle_flag => conveyor_idle_5
 	);

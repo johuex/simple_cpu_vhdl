@@ -14,11 +14,11 @@ port ( --входы и выходы
 		reset: in std_logic; --ресет
 		clk: in std_logic; --тактирование
 		in_data: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные (команда + операнды и тд)
-		in_val1: in std_ulogic_vector( (reg_size-1) downto 0); -- значение первого операнда
-		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- значение второго операнда
+		in_val1: in std_ulogic_vector( (reg_size-1) downto 0); -- значение первого операнда, получаем из регистра
+		in_val2: in std_ulogic_vector( (reg_size-1) downto 0); -- значение второго операнда, получаем из регистра
 		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение первого операнда, регистр
 		out_operand_2: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение второго операнда, регистр
-		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение операции
+		out_val: out std_ulogic_vector( (reg_size-1) downto 0); -- выходное значение операции, для записи ??? в регистр
 		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- обращаемся к RAM по адресу
 		ram_val_in: out std_ulogic_vector( (reg_size-1) downto 0); -- данные в RAM
 		ram_val_out: in std_ulogic_vector( (reg_size-1) downto 0); -- данные из RAM
@@ -65,7 +65,9 @@ begin
 						end if;
 						when others => 
 					end case;
-					counter <= 2;
+					if idle_flag != '1' then
+						counter <= 2;
+					end if;
 				when 2 => -- вычисление результата
 					case to_integer(unsigned(now_command)) is
 						when 0 => -- load
