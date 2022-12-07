@@ -7,7 +7,7 @@ entity registers is
 generic (
 	addr_length: integer := 10; -- разрядность адреса памяти в битах, 
 	reg_size: integer := 16; -- длина слова памяти в битах, размер ячейки
-	mem_size: integer := 1024 -- размер памяти, кол-во ячеек памяти
+	mem_size: integer := 10 -- размер памяти, кол-во ячеек памяти
 );
 port(
 	clk : in std_logic;
@@ -56,7 +56,7 @@ port(
 end entity registers;
 
 architecture registers_rtl of registers is
-type regfile_array is array(0 to 31) of std_logic_vector(9 downto 0);
+type regfile_array is array(0 to mem_size) of std_logic_vector(reg_size-1 downto 0);
 begin
 	process(clk, reset)
 		variable registers : regfile_array := (others => (others => '0')); --fill zeros
@@ -64,32 +64,32 @@ begin
 		if (clk'event and clk='1') then
 				-- write to registers
 				if we_1 = '1' then
-					registers(conv_integer(unsigned(rd1_addr_1))) := wr_data_1;
+					registers(to_integer(unsigned(rd1_addr_1))) := wr_data_1;
 				end if;
 				if we_2 = '1' then
-					registers(conv_integer(unsigned(rd1_addr_2))) := wr_data_2;
+					registers(to_integer(unsigned(rd1_addr_2))) := wr_data_2;
 				end if;
 				if we_3 = '1' then
-					registers(conv_integer(unsigned(rd1_addr_3))) := wr_data_3;
+					registers(to_integer(unsigned(rd1_addr_3))) := wr_data_3;
 				end if;
 				if we_4 = '1' then
-					registers(conv_integer(unsigned(rd1_addr_4))) := wr_data_4;
+					registers(to_integer(unsigned(rd1_addr_4))) := wr_data_4;
 				end if;
 				if we_5 = '1' then
-					registers(conv_integer(unsigned(rd1_addr_5))) := wr_data_5;
+					registers(to_integer(unsigned(rd1_addr_5))) := wr_data_5;
 				end if;
 				
 				-- read registers output
-				rd1_data_1 <= regs(conv_integer(unsigned(rd1_addr_1)));
-				rd2_data_1 <= regs(conv_integer(unsigned(rd2_addr_1)));
-				rd1_data_2 <= regs(conv_integer(unsigned(rd1_addr_2)));
-				rd2_data_2 <= regs(conv_integer(unsigned(rd2_addr_2)));
-				rd1_data_3 <= regs(conv_integer(unsigned(rd1_addr_3)));
-				rd2_data_3 <= regs(conv_integer(unsigned(rd2_addr_3)));
-				rd1_data_4 <= regs(conv_integer(unsigned(rd1_addr_4)));
-				rd2_data_4 <= regs(conv_integer(unsigned(rd2_addr_4)));
-				rd1_data_5 <= regs(conv_integer(unsigned(rd1_addr_5)));
-				rd2_data_5 <= regs(conv_integer(unsigned(rd2_addr_5)));
+				rd1_data_1 <= registers(to_integer(unsigned(rd1_addr_1)));
+				rd2_data_1 <= registers(to_integer(unsigned(rd2_addr_1)));
+				rd1_data_2 <= registers(to_integer(unsigned(rd1_addr_2)));
+				rd2_data_2 <= registers(to_integer(unsigned(rd2_addr_2)));
+				rd1_data_3 <= registers(to_integer(unsigned(rd1_addr_3)));
+				rd2_data_3 <= registers(to_integer(unsigned(rd2_addr_3)));
+				rd1_data_4 <= registers(to_integer(unsigned(rd1_addr_4)));
+				rd2_data_4 <= registers(to_integer(unsigned(rd2_addr_4)));
+				rd1_data_5 <= registers(to_integer(unsigned(rd1_addr_5)));
+				rd2_data_5 <= registers(to_integer(unsigned(rd2_addr_5)));
 			
 		end if;
 		
