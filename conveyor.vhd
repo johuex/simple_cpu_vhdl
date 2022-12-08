@@ -13,13 +13,13 @@ generic (
 port ( --входы и выходы
 		reset: in std_logic; --ресет
 		clk: in std_logic; --тактирование
-		in_data: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные (команда + операнды и тд)
+		in_data: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0); -- входные данные (команда + операнды и тд)
 		in_val1: in std_logic_vector( (reg_size-1) downto 0); -- значение первого операнда, получаем из регистра
 		in_val2: in std_logic_vector( (reg_size-1) downto 0); -- значение второго операнда, получаем из регистра
-		out_operand_1: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение первого операнда, регистр
-		out_operand_2: out std_ulogic_vector((operand_length-1) downto 0); -- получить значение второго операнда, регистр
+		out_operand_1: out std_logic_vector((operand_length-1) downto 0); -- получить значение первого операнда, регистр
+		out_operand_2: out std_logic_vector((operand_length-1) downto 0); -- получить значение второго операнда, регистр
 		out_val: out std_logic_vector( (reg_size-1) downto 0); -- выходное значение операции, для записи ??? в регистр
-		ram_addr: out std_ulogic_vector( (addr_length-1) downto 0); -- обращаемся к RAM по адресу
+		ram_addr: out std_logic_vector( (addr_length-1) downto 0); -- обращаемся к RAM по адресу
 		ram_val_in: out std_logic_vector( (reg_size-1) downto 0); -- данные в RAM
 		ram_val_out: in std_logic_vector( (reg_size-1) downto 0); -- данные из RAM
 		we_ram_flag: out std_logic; -- разрешение на запись в RAM
@@ -32,9 +32,9 @@ architecture conveyor_rtl of conveyor is
 signal counter: integer := 0; -- внутренний "счетчик" тактов на конвеере
 begin
 	process (clk)
-		variable now_command : std_ulogic_vector( (command_length - 1) downto 0); -- Код команды
-		variable now_operand_1 : std_ulogic_vector( (operand_length - 1) downto 0); -- Операнд 1
-		variable now_operand_2 : std_ulogic_vector( (addr_length - 1) downto 0); -- Операнд 2
+		variable now_command : std_logic_vector( (command_length - 1) downto 0); -- Код команды
+		variable now_operand_1 : std_logic_vector( (operand_length - 1) downto 0); -- Операнд 1
+		variable now_operand_2 : std_logic_vector( (addr_length - 1) downto 0); -- Операнд 2
 		variable value_operand_1 : std_logic_vector( (reg_size - 1) downto 0); -- Данные операнда 1
 		variable value_operand_2 : std_logic_vector( (reg_size - 1) downto 0); -- Данные операнда 2
 		variable mul_counter : integer := 0; --для задержки в 4 такта на умножении
@@ -84,7 +84,7 @@ begin
 							value_operand_1 := std_logic_vector( unsigned(in_val1) + unsigned(in_val2) );
 							counter <= 3;
 						when 3 => -- mul
-							value_operand_1 := std_logic_vector( unsigned(in_val1)(reg_size/2-1 downto 0) * unsigned(in_val2)(reg_size/2-1 downto 0) ); --expression has 32 elements, but must have 16 elements
+							value_operand_1 := std_logic_vector( unsigned(in_val1(reg_size/2-1 downto 0)) * unsigned(in_val2(reg_size/2-1 downto 0)) ); --expression has 32 elements, but must have 16 elements
 							-- wait 4 такта
 							if mul_counter < 4 then
 								mul_counter := mul_counter + 1;
@@ -102,7 +102,7 @@ begin
 					if (to_integer(unsigned(now_command)) = 1) then --store
 							-- пишем значение из регистра в память
 							we_ram_flag <='1';
-							ram_addr <= std_ulogic_vector(value_operand_2((addr_length - 1) downto 0)); -- value_operand_2((addr_length - 1) downto 0);
+							ram_addr <= std_logic_vector(value_operand_2((addr_length - 1) downto 0)); -- value_operand_2((addr_length - 1) downto 0);
 							ram_val_in <= value_operand_1;
 					end if;
 					if (to_integer(unsigned(now_command)) = 2) then  -- add

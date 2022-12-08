@@ -13,7 +13,7 @@ generic (
 port(
 	clk: in std_logic; --тактирование
 	reset: in std_logic; -- ресет
-	addr: in std_ulogic_vector((addr_length-1) downto 0); --адрес ячейки памяти
+	addr: in std_logic_vector((addr_length-1) downto 0); --адрес ячейки памяти
 	datao: out std_logic_vector((reg_size-1) downto 0) --данные, читаемые из памяти (команда)
 );
 end entity memory_c;

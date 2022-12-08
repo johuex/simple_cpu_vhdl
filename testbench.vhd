@@ -14,17 +14,23 @@ generic (
 end testbench;
 
 architecture testbench_rtl of testbench is
-	signal command_1, command_2, command_3, command_4, command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	signal reset : std_logic;
+	signal command_1 : std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	signal command_2 : std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	signal command_3 : std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	signal command_4 : std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	signal command_5 : std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+	signal reset : std_logic := '0';
+	signal clk: std_logic := '0';
 	constant time_var : time := t;
 begin
-	top_level: work.simple_vhdl_cpu
+	top_level: entity work.simple_vhdl_cpu
 	port map (
 		in_command_1 => command_1,
 		in_command_2 => command_2,
 		in_command_3 => command_3,
 		in_command_4 => command_4,
 		in_command_5 => command_5,
+		clk => clk,
 		reset => reset
 	);
 	
@@ -35,17 +41,17 @@ begin
 		reset <= '0';
 		wait for time_var;
 		-- TODO correct byre view
-		command_1 <= "1000000000000000"; -- SUM r0, r1
-		command_2 <= "1000100000000010"; -- SUM r2, r3
-		command_3 <= "0000110000000100"; -- MUL r4, r5
-		command_4 <= "1000110000000000"; -- LOAD r8 00000010
-		command_5 <= "0101010000000100"; -- SUM r6, r7
+		command_1 <= "1000000001"; -- SUM r0, r1
+		command_2 <= "1000100011"; -- SUM r2, r3
+		command_3 <= "1101000101"; -- MUL r4, r5
+		command_4 <= "0001100010"; -- LOAD r8, m2
+		command_5 <= "1001100110"; -- SUM r6, r7
 	
 		wait for 2*time_var;
 		-- тут конфликт
 		-- TODO correct byre view
-		command_1 <= "1101110000000001"; -- LOAD r7 00000010
-		command_2 <= "11000000000000"; -- STORE r0 00000010
+		command_1 <= "0001100010"; -- LOAD r7, m2
+		command_2 <= "0100000010"; -- STORE r0, m2
 		wait for 2*time_var;
   
 		wait for 2*time_var;
@@ -53,5 +59,13 @@ begin
 		wait for 2*time_var;
   
 		wait;
+	end process;
+	
+	-- подаем clk на top-level
+	process (clk)
+	begin
+		if clk = '0' then
+			clk <= '1' after time_var, '0' after 2*time_var;
+		end if;
 	end process;
 end architecture;
