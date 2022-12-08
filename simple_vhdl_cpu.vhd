@@ -46,6 +46,11 @@ signal out_operand1_1: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_1: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_1: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_1: std_logic; 															-- разрешение на запись в регистр
+signal flag_idle_1: std_logic := '0';												-- сигнал блокировки конвейера
+signal ram_val_in_1: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_1: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_1: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_1: std_logic; 																-- разрешение на запись в память
 
 signal value1_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
@@ -53,6 +58,11 @@ signal out_operand1_2: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_2: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_2: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_2: std_logic; 															-- разрешение на запись в регистр
+signal flag_idle_2: std_logic := '0';													-- сигнал блокировки конвейера
+signal ram_val_in_2: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_2: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_2: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_2: std_logic; 																-- разрешение на запись в память
 
 signal value1_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
@@ -60,6 +70,11 @@ signal out_operand1_3: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_3: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_3: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_3: std_logic; 															-- разрешение на запись в регистр
+signal flag_idle_3: std_logic := '0';												-- сигнал блокировки конвейера
+signal ram_val_in_3: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_3: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_3: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_3: std_logic; 																-- разрешение на запись в память
 
 signal value1_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
@@ -67,6 +82,11 @@ signal out_operand1_4: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_4: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_4: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_4: std_logic; 															-- разрешение на запись в регистр
+signal flag_idle_4: std_logic := '0';												-- сигнал блокировки конвейера
+signal ram_val_in_4: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_4: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_4: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_4: std_logic; 																-- разрешение на запись в память
 
 signal value1_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
@@ -74,6 +94,11 @@ signal out_operand1_5: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_5: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_5: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_5: std_logic; 															-- разрешение на запись в регистр
+signal flag_idle_5: std_logic := '0';												-- сигнал блокировки конвейера
+signal ram_val_in_5: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_5: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_5: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_5: std_logic; 																-- разрешение на запись в память
 
 signal value1_6: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные первого операнда
 signal value2_6: std_ulogic_vector( (reg_size-1) downto 0); 				-- данные второго операнда
@@ -81,14 +106,15 @@ signal out_operand1_6: std_ulogic_vector((operand_length-1) downto 0); 	-- пе�
 signal out_operand2_6: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
 signal out_val_6: std_ulogic_vector( (reg_size-1) downto 0); 				-- выходное значение
 signal we_reg_6: std_logic; 															-- разрешение на запись в регистр
--- Для каждого конвейера конец
-signal ram_val_in: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
-signal ram_val_out: std_ulogic_vector( (reg_size-1) downto 0); 		-- данные для чтения из памяти
-signal ram_addr: std_ulogic_vector( (addr_length-1) downto 0); 		-- адрес внешней памяти
-signal we: std_logic; 																-- разрешение на запись в память
+signal flag_idle_6: std_logic := '0';												-- сигнал блокировки конвейера
+signal ram_val_in_6: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для записи в память
+signal ram_val_out_6: std_ulogic_vector( (reg_size-1) downto 0); 			-- данные для чтения из памяти
+signal ram_addr_6: std_ulogic_vector( (addr_length-1) downto 0); 			-- адрес внешней памяти
+signal we_6: std_logic; 																-- разрешение на запись в память
 
--- Программный счетчик ?????
-signal PC: std_logic_vector(7 downto 0) := (others => '0');
+-- Для каждого конвейера конец
+
+
 begin
 	-- Оперативная память
 	RAM : entity work.memory
@@ -98,16 +124,47 @@ begin
 		mem_size => mem_size
 	)
 	port map(
-		clk => clk,					--тактирование
-		we => we, 					-- разрешение записи
-		reset => reset,			-- ресет
-		addr => ram_addr,			--адрес ячейки памяти
-		datai => ram_val_in, 	--данные для записи в память
-		datao => ram_val_out 	--данные, читаемые из памяти
+		clk => clk,							-- тактирование
+		reset => reset,					-- ресет
+		
+		we_1 => we_1, 						-- разрешение записи
+		addr_1 => ram_addr_1,			-- адрес ячейки памяти
+		datai_1 => ram_val_in_1, 		-- данные для записи в память
+		datao_1 => ram_val_out_1, 		-- данные, читаемые из памяти
+		flag_idle_1 => flag_idle_1, 	-- флаг блокировки конвейера
+		
+		we_2 => we_2, 						-- разрешение записи
+		addr_2 => ram_addr_2,			-- адрес ячейки памяти
+		datai_2 => ram_val_in_2, 		-- данные для записи в память
+		datao_2 => ram_val_out_2, 		-- данные, читаемые из памяти
+		flag_idle_2 => flag_idle_2, 	-- флаг блокировки конвейера
+		
+		we_3 => we_3, 						-- разрешение записи
+		addr_3 => ram_addr_3,			-- адрес ячейки памяти
+		datai_3 => ram_val_in_3, 		-- данные для записи в память
+		datao_3 => ram_val_out_3, 		-- данные, читаемые из памяти
+		flag_idle_3 => flag_idle_3, 	-- флаг блокировки конвейера
+		
+		we_4 => we_4, 						-- разрешение записи
+		addr_4 => ram_addr_4,			-- адрес ячейки памяти
+		datai_4 => ram_val_in_4, 		-- данные для записи в память
+		datao_4 => ram_val_out_4, 		-- данные, читаемые из памяти
+		flag_idle_4 => flag_idle_4, 	-- флаг блокировки конвейера
+		
+		we_5 => we_5, 						-- разрешение записи
+		addr_5 => ram_addr_5,			-- адрес ячейки памяти
+		datai_5 => ram_val_in_5, 		-- данные для записи в память
+		datao_5 => ram_val_out_5, 		-- данные, читаемые из памяти
+		flag_idle_5 => flag_idle_5, 	-- флаг блокировки конвейера
+		
+		we_6 => we_6, 						-- разрешение записи
+		addr_6 => ram_addr_6,			-- адрес ячейки памяти
+		datai_6 => ram_val_in_6, 		-- данные для записи в память
+		datao_6 => ram_val_out_6, 		-- данные, читаемые из памяти
+		flag_idle_6 => flag_idle_6 	-- флаг блокировки конвейера
 	);
 	
 	-- Конвейеры
-	-- TODO чтение\запись в RAM
 	conveyor_1 : entity work.conveyor
 	generic map(
 		command_length => command_length,
@@ -124,11 +181,12 @@ begin
 		out_operand_1 => out_operand1_1, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_1, 	-- второй операнд, выход
 		out_val => out_val_1, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_1 				-- разрешение на запись в регистр
+		ram_addr => ram_addr_1, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_1,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_1,			-- данные с внешней памяти
+		we => we_1,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_1, 				-- разрешение на запись в регистр
+		flag_idle => flag_idle_1           	-- сигнал блокировки
 	);
 	
 	conveyor_2 : entity work.conveyor
@@ -147,11 +205,12 @@ begin
 		out_operand_1 => out_operand1_2, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_2, 	-- второй операнд, выход
 		out_val => out_val_2, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_2 				-- разрешение на запись в регистр
+		ram_addr => ram_addr_2, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_2,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_2,			-- данные с внешней памяти
+		we => we_2,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_2, 				-- разрешение на запись в регистр
+		flag_idle => flag_idle_2           	-- сигнал блокировки
 	);
 	
 	conveyor_3 : entity work.conveyor
@@ -170,11 +229,12 @@ begin
 		out_operand_1 => out_operand1_3, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_3, 	-- второй операнд, выход
 		out_val => out_val_3, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_3 			-- разрешение на запись в регистр
+		ram_addr => ram_addr_3, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_3,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_3,			-- данные с внешней памяти
+		we => we_3,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_3, 				-- разрешение на запись в регистр
+		flag_idle => flag_idle_3           	-- сигнал блокировки
 	);
 	
 	conveyor_4 : entity work.conveyor
@@ -193,11 +253,12 @@ begin
 		out_operand_1 => out_operand1_4, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_4, 	-- второй операнд, выход
 		out_val => out_val_4, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_4 			-- разрешение на запись в регистр
+		ram_addr => ram_addr_4, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_4,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_4,			-- данные с внешней памяти
+		we => we_4,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_4, 			-- разрешение на запись в регистр
+		flag_idle => flag_idle_4           	-- сигнал блокировки
 	);
 	
 	conveyor_5 : entity work.conveyor
@@ -216,11 +277,12 @@ begin
 		out_operand_1 => out_operand1_5, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_5, 	-- второй операнд, выход
 		out_val => out_val_5, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_5 			-- разрешение на запись в регистр
+		ram_addr => ram_addr_5, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_5,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_5,			-- данные с внешней памяти
+		we => we_5,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_5, 			-- разрешение на запись в регистр
+		flag_idle => flag_idle_5           	-- сигнал блокировки
 	);
 	
 	conveyor_6 : entity work.conveyor
@@ -239,16 +301,17 @@ begin
 		out_operand_1 => out_operand1_6, 	-- первый операнд, выход
 		out_operand_2 => out_operand2_6, 	-- второй операнд, выход
 		out_val => out_val_6, 					-- выходное значение
-		ram_addr => ram_addr, 					-- адрес внешней памяти
-		ram_val_in => ram_val_in,				-- данные во внешнюю память
-		ram_val_out => ram_val_out,			-- данные с внешней памяти
-		we => we,  									-- разрешение на запись в память
-		we_flag_reg => we_reg_6 			-- разрешение на запись в регистр
+		ram_addr => ram_addr_6, 					-- адрес внешней памяти
+		ram_val_in => ram_val_in_6,				-- данные во внешнюю память
+		ram_val_out => ram_val_out_6,			-- данные с внешней памяти
+		we => we_6,  									-- разрешение на запись в память
+		we_flag_reg => we_reg_6, 			-- разрешение на запись в регистр
+		flag_idle => flag_idle_6           	-- сигнал блокировки
 	);
 	-- Регистры
 	REGS : entity work.registers
 	generic map(
-		addr_length => addr_length,
+		addr_length => operand_length,
 		reg_size => reg_size,
 		reg_count => reg_count
 	)
