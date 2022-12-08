@@ -94,16 +94,16 @@ begin
 		end if;
 		
 		if reset='1' then
-			registers(0) := x"0000";
-			registers(1) := x"0000";
-			registers(2) := x"0000";
-			registers(3) := x"0000";
-			registers(4) := x"0000";
-			registers(5) := x"0000";
-			registers(6) := x"0000";
-			registers(7) := x"0000";
-			registers(8) := x"0000";
-			registers(9) := x"0000";
+			registers(0) := x"0000000000000000";
+			registers(1) := x"0000000000000000";
+			registers(2) := x"0000000000000000";
+			registers(3) := x"0000000000000000";
+			registers(4) := x"0000000000000000";
+			registers(5) := x"0000000000000000";
+			registers(6) := x"0000000000000000";
+			registers(7) := x"0000000000000000";
+			registers(8) := x"0000000000000000";
+			registers(9) := x"0000000000000000";
 		end if;
 	end process;
 end architecture registers_rtl;
