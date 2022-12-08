@@ -14,29 +14,29 @@ generic (
 	reg_count: integer := 8;
 	t: time := 2ns
 );
-port (
-	reset: in std_logic;
-	
-	-- Входы инструкций на конвейеры
-	in_command_1: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_3: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_4: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-	in_command_6: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0)
-);
+--port (
+--	reset: in std_logic;
+--	
+--	-- Входы инструкций на конвейеры
+--	in_command_1: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_3: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_4: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_6: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0)
+--);
 end entity simple_vhdl_cpu;
 
 architecture cup_rtl of simple_vhdl_cpu is
 
---signal reset: std_logic := '0';
----- Входы инструкций на конвейеры
---signal in_command_1: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_2: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_3: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_4: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---signal in_command_6: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal reset: std_logic := '0';
+-- Входы инструкций на конвейеры
+signal in_command_1: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_2: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_3: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_4: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_6: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 
 signal clk: std_logic := '0';
 -- Для каждого конвейера начало
@@ -390,24 +390,25 @@ begin
 	end process;
 	
 	-- Testbench
---    testbench: process is
---    begin
---		in_command_1 <= "1100000000000000"; -- STORE r0 00000000
---		in_command_2 <= "1000010000000000"; -- LOAD r1 00000000
---		in_command_3 <= "0000100000000011"; -- ADD r2, r3
---		in_command_4 <= "0101110000000110"; -- SUB r7, r6
---		in_command_5 <= "0001000000000101"; -- ADD r4, r5
---		in_command_6 <= "1101100000000001"; -- STORE r6, 00000001
---		reset <= '1';
---		wait for 4 ns;
---		reset <= '0';
---		wait for 8 ns;
---		in_command_1 <= "0000010000000011"; -- ADD r1, r3
---		in_command_2 <= "0000100000000011"; -- ADD r2, r3
---		in_command_3 <= "0001000000000011"; -- ADD r4, r3
---		in_command_4 <= "0001010000000011"; -- ADD r5, r3
---		in_command_5 <= "0001100000000011"; -- ADD r6, r3
---		in_command_6 <= "0001110000000011"; -- ADD r7, r3
---		wait;
---	end process testbench;
+    testbench: process is
+    begin
+		in_command_1 <= "1100000000000000"; -- STORE r0 00000000
+		in_command_2 <= "1000010000000000"; -- LOAD r1 00000000
+		in_command_3 <= "0000100000000011"; -- ADD r2, r3
+		in_command_4 <= "0101110000000110"; -- SUB r7, r6
+		in_command_5 <= "0001000000000101"; -- ADD r4, r5
+		in_command_6 <= "1101100000000001"; -- STORE r6, 00000001
+		reset <= '1';
+		wait for 4 ns;
+		reset <= '0';
+		wait for 8 ns;
+		in_command_1 <= "0000010000000011"; -- ADD r1, r3
+		in_command_3 <= "0001000000000011"; -- ADD r4, r3
+		in_command_4 <= "0001010000000011"; -- ADD r5, r3
+		in_command_5 <= "0001100000000011"; -- ADD r6, r3
+		in_command_6 <= "0001110000000011"; -- ADD r7, r3
+		wait for 18 ns;
+		in_command_2 <= "0000100000000011"; -- ADD r2, r3
+		wait;
+	end process testbench;
 end architecture;

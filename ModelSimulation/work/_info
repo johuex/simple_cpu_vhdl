@@ -1,0 +1,243 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/Programms/Quartus/Labs/LabRab2
+Econflict_resolver
+Z0 w1670502880
+Z1 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+Z2 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 80
+Z5 dD:/Programms/Quartus/ModelSimulation
+Z6 8D:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd
+Z7 FD:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd
+l0
+L7 1
+VYdX@X6caXaDPzPPeFj3<00
+!s100 @;n0@KY1=;N[hk;bHZH@n1
+Z8 OV;C;2020.1;71
+32
+Z9 !s110 1670509568
+!i10b 1
+Z10 !s108 1670509568.000000
+Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd|
+Z12 !s107 D:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd|
+!i113 1
+Z13 o-work work -2002 -explicit
+Z14 tExplicit 1 CvgOpt 0
+Aconflict_resolver_rtl
+R1
+R2
+R3
+R4
+Z15 DEx4 work 17 conflict_resolver 0 22 YdX@X6caXaDPzPPeFj3<00
+!i122 80
+l49
+L34 93
+VR8P7LWCbmSAgEHJ=kbjf22
+!s100 SK@AIM9X^[QlINf>0;9D;1
+R8
+32
+R9
+!i10b 1
+R10
+R11
+R12
+!i113 1
+R13
+R14
+Econveyor
+Z16 w1670509525
+Z17 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+R2
+R1
+R3
+R4
+!i122 81
+R5
+Z18 8D:/Programms/Quartus/ModelSimulation/conveyor.vhd
+Z19 FD:/Programms/Quartus/ModelSimulation/conveyor.vhd
+l0
+L8 1
+Vb9Fog8FciRd374;Fzc?W?1
+!s100 c4`KTUG3XoS3zbY81QTGG1
+R8
+32
+R9
+!i10b 1
+R10
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Programms/Quartus/ModelSimulation/conveyor.vhd|
+Z21 !s107 D:/Programms/Quartus/ModelSimulation/conveyor.vhd|
+!i113 1
+R13
+R14
+Aconveyor_rtl
+R17
+R2
+R1
+R3
+R4
+Z22 DEx4 work 8 conveyor 0 22 b9Fog8FciRd374;Fzc?W?1
+!i122 81
+l41
+L34 86
+Vjk;T?K0FHD1EL3cIU^O=F2
+!s100 K^07LAW[1_@oPTQmZ`>[X1
+R8
+32
+R9
+!i10b 1
+R10
+R20
+R21
+!i113 1
+R13
+R14
+Ememory
+Z23 w1670502156
+R1
+R2
+R3
+R4
+!i122 82
+R5
+Z24 8D:/Programms/Quartus/ModelSimulation/data_memory.vhd
+Z25 FD:/Programms/Quartus/ModelSimulation/data_memory.vhd
+l0
+L7 1
+V2IM:b3JS2VnE1GC8g]Eo@1
+!s100 zehEJgkAK;9SR<V<HF2aI1
+R8
+32
+R9
+!i10b 1
+R10
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Programms/Quartus/ModelSimulation/data_memory.vhd|
+Z27 !s107 D:/Programms/Quartus/ModelSimulation/data_memory.vhd|
+!i113 1
+R13
+R14
+Amemory_rtl
+R1
+R2
+R3
+R4
+Z28 DEx4 work 6 memory 0 22 2IM:b3JS2VnE1GC8g]Eo@1
+!i122 82
+l52
+L49 45
+VML7P]Z:=MdccGc5;K?zgi2
+!s100 :@3S4CfmjRDmBE>MDW0fc2
+R8
+32
+R9
+!i10b 1
+R10
+R26
+R27
+!i113 1
+R13
+R14
+Eregisters
+Z29 w1670499380
+R1
+R2
+R3
+R4
+!i122 83
+R5
+Z30 8D:/Programms/Quartus/ModelSimulation/registers.vhd
+Z31 FD:/Programms/Quartus/ModelSimulation/registers.vhd
+l0
+L7 1
+V^FSelUfTn`IZC_TYT08]f2
+!s100 fhIXbGl`F]8mLPHX^Rl_32
+R8
+32
+R9
+!i10b 1
+R10
+Z32 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Programms/Quartus/ModelSimulation/registers.vhd|
+Z33 !s107 D:/Programms/Quartus/ModelSimulation/registers.vhd|
+!i113 1
+R13
+R14
+Aregisters_rtl
+R1
+R2
+R3
+R4
+Z34 DEx4 work 9 registers 0 22 ^FSelUfTn`IZC_TYT08]f2
+!i122 83
+l65
+L62 53
+VY?aicLRZ?0ID9HP30S_g31
+!s100 VYL;AZ2^XT[k`5f6iR]C20
+R8
+32
+R9
+!i10b 1
+R10
+R32
+R33
+!i113 1
+R13
+R14
+Esimple_vhdl_cpu
+Z35 w1670509127
+R1
+R2
+R3
+R4
+!i122 84
+R5
+Z36 8D:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd
+Z37 FD:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd
+l0
+L7 1
+VYK>NzTP:MVSf@Man7k`z]0
+!s100 zJ7W7hVnmcObN6?Q[]NWn0
+R8
+32
+Z38 !s110 1670509569
+!i10b 1
+R10
+Z39 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd|
+!s107 D:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd|
+!i113 1
+R13
+R14
+Acup_rtl
+R34
+R17
+R22
+R15
+R28
+R1
+R2
+R3
+R4
+Z40 DEx4 work 15 simple_vhdl_cpu 0 22 YK>NzTP:MVSf@Man7k`z]0
+!i122 84
+l118
+Z41 L30 385
+Z42 V8H>cD6zR[nBYnX0K?D]Of3
+Z43 !s100 ZUAgX?O[5^nmXIngNPZfD1
+R8
+32
+R38
+!i10b 1
+R10
+R39
+Z44 !s107 D:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd|
+!i113 1
+R13
+R14

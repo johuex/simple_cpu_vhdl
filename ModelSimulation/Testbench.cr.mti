@@ -1,0 +1,58 @@
+D:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/Programms/Quartus/ModelSimulation/conflict_resolver.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity conflict_resolver
+-- Compiling architecture conflict_resolver_rtl of conflict_resolver
+
+} {} {}} D:/Programms/Quartus/ModelSimulation/registers.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/Programms/Quartus/ModelSimulation/registers.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity registers
+-- Compiling architecture registers_rtl of registers
+
+} {} {}} D:/Programms/Quartus/ModelSimulation/conveyor.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/Programms/Quartus/ModelSimulation/conveyor.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package NUMERIC_STD
+-- Compiling entity conveyor
+-- Compiling architecture conveyor_rtl of conveyor
+
+} {} {}} D:/Programms/Quartus/ModelSimulation/simple_vhdl_cpu.vhd {2 {vcom -work work -2002 -explicit -stats=none {D:\Programms\Quartus\ModelSimulation\simple_vhdl_cpu.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity simple_vhdl_cpu
+** Warning: D:\Programms\Quartus\ModelSimulation\simple_vhdl_cpu.vhd(15): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+-- Compiling architecture cup_rtl of simple_vhdl_cpu
+-- Loading entity memory
+-- Loading entity conflict_resolver
+-- Loading package NUMERIC_STD
+-- Loading entity conveyor
+-- Loading entity registers
+
+} {} {}} D:/Programms/Quartus/ModelSimulation/data_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/Programms/Quartus/ModelSimulation/data_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity memory
+-- Compiling architecture memory_rtl of memory
+
+} {} {}}
