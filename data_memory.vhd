@@ -83,7 +83,7 @@ begin
 		--сброс памяти
 		if reset='1' then
 			for i in 0 to mem_size-1 loop
-				mem_arr(i) <= x"0000";
+				mem_arr(i) <= "0000000000000000";
 			end loop;
 		end if;
 	end process;

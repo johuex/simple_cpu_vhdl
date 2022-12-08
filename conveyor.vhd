@@ -6,8 +6,8 @@ use ieee.numeric_std.all;
 entity conveyor is 
 generic (
 	command_length: integer := 2; -- разрядность команды
-	operand_length: integer := 10; -- разрядность операнда (регистр или память)
-	addr_length: integer := 10; -- разрядность второго операнда или памяти
+	operand_length: integer := 4; -- разрядность операнда (регистр или память)
+	addr_length: integer := 4; -- разрядность второго операнда или памяти
 	reg_size: integer := 16 -- размер регистра (должен быть равен размеру ячейки памяти)
 );
 port ( --входы и выходы
@@ -40,6 +40,7 @@ begin
 		variable mul_counter : integer := 0; --для задержки в 4 такта на умножении
 	begin
 		if (clk'event and clk = '1') then 		
+			if (idle_flag /= '1') then
 			case counter is
 				when 0 => -- выборка команды
 					now_command := in_data((command_length + operand_length + addr_length - 1) downto (operand_length + addr_length));
@@ -48,26 +49,20 @@ begin
 					counter <= 1;
 				when 1 => -- выборка операндов
 					case to_integer(unsigned(now_command)) is
-						when 0 | 1 => -- add or sub
+						when 0 => -- load
+							-- отправляем запрос на чтение значения из внешней памяти, второй операнд
+							we_ram_flag <= '0';
+							ram_addr <= now_operand_2;
+						when 1 => -- store
+							-- отправляем запрос на чтение значения из регистра, первый операнд
+							out_operand_1 <= now_operand_1;
+						when 2 | 3 => -- add or sub
 							-- отправляем запрос на чтение значений из регистров
 							out_operand_1 <= now_operand_1;
 							out_operand_2 <= now_operand_2((operand_length-1) downto 0);
-						when 2 => -- load
-							if idle_flag /= '1' then  -- проверяем не нужно ли пропускать такт
-								-- отправляем запрос на чтение значения из внешней памяти, второй операнд
-								we_ram_flag <= '0';
-								ram_addr <= now_operand_2;
-							end if;
-						when 3 => -- store
-							if idle_flag /= '1' then  -- проверяем не нужно ли пропускать такт
-								-- отправляем запрос на чтение значения из регистра, первый операнд
-								out_operand_1 <= now_operand_1;
-							end if;
 						when others => 
 					end case;
-					if idle_flag /= '1' then
-						counter <= 2;
-					end if;
+					counter <= 2;
 				when 2 => -- вычисление результата
 					case to_integer(unsigned(now_command)) is
 						when 0 => -- load
@@ -120,6 +115,7 @@ begin
 					mul_counter := 0;
 				when others =>
 			end case;
+			end if;
 		end if;
 	end process;
 end architecture;

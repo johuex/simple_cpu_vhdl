@@ -94,16 +94,16 @@ begin
 		end if;
 		
 		if reset='1' then
-			registers(0) := "0000000000000000";
-			registers(1) := "0000000000000000";
-			registers(2) := "0000000000000000";
-			registers(3) := "0000000000000000";
-			registers(4) := "0000000000000000";
-			registers(5) := "0000000000000000";
-			registers(6) := "0000000000000000";
-			registers(7) := "0000000000000000";
-			registers(8) := "0000000000000000";
-			registers(9) := "0000000000000000";
+			registers(0) := "0000000000000001";
+			registers(1) := "0000000000000010";
+			registers(2) := "0000000000000011";
+			registers(3) := "0000000000000100";
+			registers(4) := "0000000000000101";
+			registers(5) := "0000000000000110";
+			registers(6) := "0000000000000111";
+			registers(7) := "0000000000001000";
+			registers(8) := "0000000000001001";
+			registers(9) := "0000000000001010";
 		end if;
 	end process;
 end architecture registers_rtl;
