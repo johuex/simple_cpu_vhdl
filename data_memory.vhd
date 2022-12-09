@@ -20,39 +20,39 @@ port (
 	-- * x2 выхода, значения регистров
 	-- * выход, что конвеер должен пропустить такт
 	we_1 : in std_logic;
-	addr_1 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_data_1  : in std_ulogic_vector((reg_size-1) downto 0);
-	out_data_1 : out std_ulogic_vector((reg_size-1) downto 0);
+	addr_1 : in  std_logic_vector((addr_length-1) downto 0);
+	wr_data_1  : in std_logic_vector((reg_size-1) downto 0);
+	out_data_1 : out std_logic_vector((reg_size-1) downto 0);
 	
 	we_2 : in std_logic;
-	addr_2 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_data_2  : in std_ulogic_vector((reg_size-1) downto 0);
-	out_data_2 : out std_ulogic_vector((reg_size-1) downto 0);
+	addr_2 : in  std_logic_vector((addr_length-1) downto 0);
+	wr_data_2  : in std_logic_vector((reg_size-1) downto 0);
+	out_data_2 : out std_logic_vector((reg_size-1) downto 0);
 	
 	we_3 : in std_logic;
-	addr_3 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_data_3  : in std_ulogic_vector((reg_size-1) downto 0);
-	out_data_3 : out std_ulogic_vector((reg_size-1) downto 0);
+	addr_3 : in  std_logic_vector((addr_length-1) downto 0);
+	wr_data_3  : in std_logic_vector((reg_size-1) downto 0);
+	out_data_3 : out std_logic_vector((reg_size-1) downto 0);
 	
 	we_4 : in std_logic;
-	addr_4 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_data_4  : in std_ulogic_vector((reg_size-1) downto 0);
-	out_data_4 : out std_ulogic_vector((reg_size-1) downto 0);
+	addr_4 : in  std_logic_vector((addr_length-1) downto 0);
+	wr_data_4  : in std_logic_vector((reg_size-1) downto 0);
+	out_data_4 : out std_logic_vector((reg_size-1) downto 0);
 	
 	we_5 : in std_logic;
-	addr_5 : in  std_ulogic_vector((addr_length-1) downto 0);
-	wr_data_5  : in std_ulogic_vector((reg_size-1) downto 0);
-	out_data_5 : out std_ulogic_vector((reg_size-1) downto 0)
+	addr_5 : in  std_logic_vector((addr_length-1) downto 0);
+	wr_data_5  : in std_logic_vector((reg_size-1) downto 0);
+	out_data_5 : out std_logic_vector((reg_size-1) downto 0)
 );
 end entity memory;
 
 architecture memory_rtl of memory is
-type mem_array is array (0 to mem_size-1) of std_ulogic_vector((reg_size-1) downto 0);
+type mem_array is array (0 to mem_size-1) of std_logic_vector((reg_size-1) downto 0);
 signal mem_arr: mem_array;
 begin
 	process (clk, reset)
 	begin
-		if (clk'event and clk='1') then
+		if (clk'event and clk='1' and reset /='1') then
 		
 			-- write to RAM
 			if we_1 = '1' then

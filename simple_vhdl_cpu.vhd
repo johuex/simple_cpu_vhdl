@@ -18,12 +18,12 @@ generic (
 );
 --port (
 ---- Входы инструкций на конвейеры
---	in_command_1: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---	in_command_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---	in_command_3: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---	in_command_4: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---	in_command_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
---	in_command_6: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0)
+--	in_command_1: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_2: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_3: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_4: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_5: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+--	in_command_6: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0)
 --);
 end entity simple_vhdl_cpu;
 
@@ -32,72 +32,72 @@ constant time_var : time := t;
 signal clk: std_logic := '0';
 signal reset: std_logic := '0';
 
-signal in_command_1: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-signal in_command_2: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-signal in_command_3: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-signal in_command_4: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
-signal in_command_5: std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_1: std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_2: std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_3: std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_4: std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+signal in_command_5: std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
 
 -- Для каждого конвейера входы и выходы
 -- TODO мб убрать обнуление сигнала
-signal reg_value1_1: std_ulogic_vector( (cell_size-1) downto 0); 				-- данные первого операнда
-signal reg_value2_1: std_ulogic_vector( (cell_size-1) downto 0); 				-- данные второго операнда
-signal out_operand1_1: std_ulogic_vector((operand_length-1) downto 0); -- первый операнд, выход
-signal out_operand2_1: std_ulogic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
-signal reg_out_val_1: std_ulogic_vector( (cell_size-1) downto 0); 				-- выходное значение
+signal reg_value1_1: std_logic_vector( (cell_size-1) downto 0); 				-- данные первого операнда
+signal reg_value2_1: std_logic_vector( (cell_size-1) downto 0); 				-- данные второго операнда
+signal out_operand1_1: std_logic_vector((operand_length-1) downto 0); -- первый операнд, выход
+signal out_operand2_1: std_logic_vector((operand_length-1) downto 0); 	-- второй операнд, выход
+signal reg_out_val_1: std_logic_vector( (cell_size-1) downto 0); 				-- выходное значение
 signal we_flag_reg_1: std_logic := '0';
 signal we_ram_flag_1: std_logic := '0';
-signal ram_addr_1: std_ulogic_vector( (addr_length-1) downto 0);
-signal ram_val_in_1: std_ulogic_vector( (cell_size-1) downto 0);
-signal ram_val_out_1: std_ulogic_vector( (cell_size-1) downto 0);
+signal ram_addr_1: std_logic_vector( (addr_length-1) downto 0);
+signal ram_val_in_1: std_logic_vector( (cell_size-1) downto 0);
+signal ram_val_out_1: std_logic_vector( (cell_size-1) downto 0);
 signal idle_flag_1: std_logic := '0';
 
-signal reg_value1_2: std_ulogic_vector( (cell_size-1) downto 0);
-signal reg_value2_2: std_ulogic_vector( (cell_size-1) downto 0);
-signal out_operand1_2: std_ulogic_vector((operand_length-1) downto 0);
-signal out_operand2_2: std_ulogic_vector((operand_length-1) downto 0);
-signal reg_out_val_2: std_ulogic_vector( (cell_size-1) downto 0);
+signal reg_value1_2: std_logic_vector( (cell_size-1) downto 0);
+signal reg_value2_2: std_logic_vector( (cell_size-1) downto 0);
+signal out_operand1_2: std_logic_vector((operand_length-1) downto 0);
+signal out_operand2_2: std_logic_vector((operand_length-1) downto 0);
+signal reg_out_val_2: std_logic_vector( (cell_size-1) downto 0);
 signal we_flag_reg_2: std_logic := '0';
 signal we_ram_flag_2: std_logic := '0';
-signal ram_addr_2: std_ulogic_vector( (addr_length-1) downto 0);
-signal ram_val_in_2: std_ulogic_vector( (cell_size-1) downto 0);
-signal ram_val_out_2: std_ulogic_vector( (cell_size-1) downto 0);
+signal ram_addr_2: std_logic_vector( (addr_length-1) downto 0);
+signal ram_val_in_2: std_logic_vector( (cell_size-1) downto 0);
+signal ram_val_out_2: std_logic_vector( (cell_size-1) downto 0);
 signal idle_flag_2: std_logic := '0';
 
-signal reg_value1_3: std_ulogic_vector( (cell_size-1) downto 0);
-signal reg_value2_3: std_ulogic_vector( (cell_size-1) downto 0);
-signal out_operand1_3: std_ulogic_vector((operand_length-1) downto 0);
-signal out_operand2_3: std_ulogic_vector((operand_length-1) downto 0); 
-signal reg_out_val_3: std_ulogic_vector( (cell_size-1) downto 0);
+signal reg_value1_3: std_logic_vector( (cell_size-1) downto 0);
+signal reg_value2_3: std_logic_vector( (cell_size-1) downto 0);
+signal out_operand1_3: std_logic_vector((operand_length-1) downto 0);
+signal out_operand2_3: std_logic_vector((operand_length-1) downto 0); 
+signal reg_out_val_3: std_logic_vector( (cell_size-1) downto 0);
 signal we_flag_reg_3: std_logic := '0';
 signal we_ram_flag_3: std_logic := '0';
-signal ram_addr_3: std_ulogic_vector( (addr_length-1) downto 0);
-signal ram_val_in_3: std_ulogic_vector( (cell_size-1) downto 0);
-signal ram_val_out_3: std_ulogic_vector( (cell_size-1) downto 0);
+signal ram_addr_3: std_logic_vector( (addr_length-1) downto 0);
+signal ram_val_in_3: std_logic_vector( (cell_size-1) downto 0);
+signal ram_val_out_3: std_logic_vector( (cell_size-1) downto 0);
 signal idle_flag_3: std_logic := '0';
 
-signal reg_value1_4: std_ulogic_vector( (cell_size-1) downto 0);
-signal reg_value2_4: std_ulogic_vector( (cell_size-1) downto 0);
-signal out_operand1_4: std_ulogic_vector((operand_length-1) downto 0);
-signal out_operand2_4: std_ulogic_vector((operand_length-1) downto 0);
-signal reg_out_val_4: std_ulogic_vector( (cell_size-1) downto 0);
+signal reg_value1_4: std_logic_vector( (cell_size-1) downto 0);
+signal reg_value2_4: std_logic_vector( (cell_size-1) downto 0);
+signal out_operand1_4: std_logic_vector((operand_length-1) downto 0);
+signal out_operand2_4: std_logic_vector((operand_length-1) downto 0);
+signal reg_out_val_4: std_logic_vector( (cell_size-1) downto 0);
 signal we_flag_reg_4: std_logic := '0';
 signal we_ram_flag_4: std_logic := '0';
-signal ram_addr_4: std_ulogic_vector( (addr_length-1) downto 0);
-signal ram_val_in_4: std_ulogic_vector( (cell_size-1) downto 0);
-signal ram_val_out_4: std_ulogic_vector( (cell_size-1) downto 0);
+signal ram_addr_4: std_logic_vector( (addr_length-1) downto 0);
+signal ram_val_in_4: std_logic_vector( (cell_size-1) downto 0);
+signal ram_val_out_4: std_logic_vector( (cell_size-1) downto 0);
 signal idle_flag_4: std_logic := '0';
 
-signal reg_value1_5: std_ulogic_vector( (cell_size-1) downto 0);
-signal reg_value2_5: std_ulogic_vector( (cell_size-1) downto 0);
-signal out_operand1_5: std_ulogic_vector((operand_length-1) downto 0);
-signal out_operand2_5: std_ulogic_vector((operand_length-1) downto 0); 
-signal reg_out_val_5: std_ulogic_vector( (cell_size-1) downto 0);
+signal reg_value1_5: std_logic_vector( (cell_size-1) downto 0);
+signal reg_value2_5: std_logic_vector( (cell_size-1) downto 0);
+signal out_operand1_5: std_logic_vector((operand_length-1) downto 0);
+signal out_operand2_5: std_logic_vector((operand_length-1) downto 0); 
+signal reg_out_val_5: std_logic_vector( (cell_size-1) downto 0);
 signal we_flag_reg_5: std_logic := '0';
 signal we_ram_flag_5: std_logic := '0';
-signal ram_addr_5: std_ulogic_vector( (addr_length-1) downto 0);
-signal ram_val_in_5: std_ulogic_vector( (cell_size-1) downto 0);
-signal ram_val_out_5: std_ulogic_vector( (cell_size-1) downto 0);
+signal ram_addr_5: std_logic_vector( (addr_length-1) downto 0);
+signal ram_val_in_5: std_logic_vector( (cell_size-1) downto 0);
+signal ram_val_out_5: std_logic_vector( (cell_size-1) downto 0);
 signal idle_flag_5: std_logic := '0';
  
 begin
@@ -343,6 +343,7 @@ begin
 		wait for 4 ns;
 		reset <= '0';
 		wait for 4 ns;
+		-- TODO переделать бенч ???
 		in_command_1 <= "1000000001"; -- SUM r0, r1
 		in_command_2 <= "1000100011"; -- SUM r2, r3
 		in_command_3 <= "1101000101"; -- MUL r4, r5
