@@ -15,11 +15,11 @@ port (
 		clk: in std_logic;
 		reset: in std_logic;
 		-- входные команды для конвееров
-		in_data_1: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
-		in_data_2: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
-		in_data_3: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
-		in_data_4: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
-		in_data_5: in std_logic_vector((command_length + operand_length + addr_length - 1) downto 0);
+		in_data_1: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+		in_data_2: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+		in_data_3: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+		in_data_4: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
+		in_data_5: in std_ulogic_vector((command_length + operand_length + addr_length - 1) downto 0);
 
 		-- флаги для блокировки конвейера
 		flag_idle_1: out std_logic;
@@ -31,11 +31,11 @@ port (
 end entity conflict_resolver;
 
 architecture conflict_resolver_rtl of conflict_resolver is
-signal addr_1: std_logic_vector((addr_length-1) downto 0);
-signal addr_2: std_logic_vector((addr_length-1) downto 0);
-signal addr_3: std_logic_vector((addr_length-1) downto 0);
-signal addr_4: std_logic_vector((addr_length-1) downto 0);
-signal addr_5: std_logic_vector((addr_length-1) downto 0);
+signal addr_1: std_ulogic_vector((addr_length-1) downto 0);
+signal addr_2: std_ulogic_vector((addr_length-1) downto 0);
+signal addr_3: std_ulogic_vector((addr_length-1) downto 0);
+signal addr_4: std_ulogic_vector((addr_length-1) downto 0);
+signal addr_5: std_ulogic_vector((addr_length-1) downto 0);
 
 signal we_1: std_logic;
 signal we_2: std_logic;
@@ -52,6 +52,7 @@ begin
 			addr_3 <= in_data_3((addr_length - 1) downto 0);
 			addr_4 <= in_data_4((addr_length - 1) downto 0);
 			addr_5 <= in_data_5((addr_length - 1) downto 0);
+			-- TODO проверить парсер и команду для проверки
 			if (in_data_1((command_length + operand_length + addr_length - 1) downto (operand_length + addr_length)) = "01") then
 				we_1 <= '1';
 			else
@@ -80,6 +81,7 @@ begin
 			
 			-- conflict resolving
 			-- делаем приоритет конвеерам
+			-- TODO поменять на безприоритетный ???
 			flag_idle_1 <= '0';
 			if (addr_1 = addr_2 and we_1 = '1') then
 				flag_idle_2 <= '1';
