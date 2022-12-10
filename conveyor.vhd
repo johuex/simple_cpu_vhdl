@@ -62,7 +62,7 @@ begin
 						counter <= 2;
 					when 2 => -- ожидаем полученных значений для вычисления результата	
 						case to_integer(unsigned(now_command)) is
-							when 0 | 1 | 2=> -- load
+							when 0 | 1 | 2 => -- load, sum and sub
 								counter <= 3;
 							when 3 => -- mul
 								-- ждем дополнительные 4 такта

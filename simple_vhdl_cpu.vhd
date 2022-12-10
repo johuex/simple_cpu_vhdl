@@ -343,17 +343,20 @@ begin
 		wait for 4 ns;
 		reset <= '0';
 		wait for 4 ns;
-		-- TODO переделать бенч ???
+		
 		in_command_1 <= "1000000001"; -- SUM r0, r1
 		in_command_2 <= "1000100011"; -- SUM r2, r3
 		in_command_3 <= "1101000101"; -- MUL r4, r5
 		in_command_4 <= "0001100010"; -- LOAD r8, m2
 		in_command_5 <= "1001100110"; -- SUM r6, r7
 	
-		wait for 50 ns;
+		wait for 46 ns;
 		-- тут конфликт
-		in_command_1 <= "0000010010"; -- LOAD r1, m2
-		in_command_2 <= "0100000010"; -- STORE r0, m2
-		wait;
+		in_command_1 <= "0100000010"; -- STORE r0, m2
+		in_command_2 <= "0000010010"; -- LOAD r1, m2
+		wait for 20 ns;
+
+		in_command_1 <= "1001100110"; -- SUM r6, r7; для проверки сброса флага простоя
+	
 	end process testbench;
 end architecture;
