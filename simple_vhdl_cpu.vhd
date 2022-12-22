@@ -356,7 +356,7 @@ begin
 		in_command_2 <= "0000010010"; -- LOAD r1, m2
 		wait for 20 ns;
 
-		in_command_1 <= "1001100110"; -- SUM r6, r7; для проверки сброса флага простоя
-	
+		in_command_1 <= "1000100011"; -- SUM r6, r7; для проверки сброса флага простоя
+		wait;
 	end process testbench;
 end architecture;

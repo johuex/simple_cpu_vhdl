@@ -66,7 +66,7 @@ begin
 								counter <= 3;
 							when 3 => -- mul
 								-- ждем дополнительные 4 такта
-								if mul_counter < 4 then
+								if mul_counter < 3 then
 									mul_counter <= mul_counter + 1;
 								else
 									counter <= 3;

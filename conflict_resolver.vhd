@@ -52,7 +52,6 @@ begin
 			addr_3 <= in_data_3((addr_length - 1) downto 0);
 			addr_4 <= in_data_4((addr_length - 1) downto 0);
 			addr_5 <= in_data_5((addr_length - 1) downto 0);
-			-- TODO проверить парсер и команду для проверки
 			if (in_data_1((command_length + operand_length + addr_length - 1) downto (operand_length + addr_length)) = "01") then
 				we_1 <= '1';
 			else
@@ -81,7 +80,6 @@ begin
 			
 			-- conflict resolving
 			-- делаем приоритет конвеерам
-			-- TODO поменять на безприоритетный ???
 			flag_idle_1 <= '0';
 			if (addr_1 = addr_2 and we_1 = '1') then
 				flag_idle_2 <= '1';
