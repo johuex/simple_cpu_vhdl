@@ -1,3 +1,4 @@
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
@@ -6,7 +7,7 @@ use ieee.std_logic_unsigned.all;
 -- ROM memory
 entity memory_c is
 generic (
-	addr_length: integer := 10; -- разрядность адреса памяти в битах, 
+	addr_length: integer := 10; -- разрядность адреса памяти в битах,
 	reg_size: integer := 16; -- длина команды
 	mem_size: integer := 256 -- длина памяти (число команд в памяти)
 );

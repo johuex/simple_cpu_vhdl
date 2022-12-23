@@ -1,2 +1,4 @@
 *
 !*.vhd
+!.gitignore
+!*.md
